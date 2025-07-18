@@ -1,18 +1,54 @@
 "use client";
-import { IKImage } from "imagekitio-next";
+import type { AuthResponse } from "@/types/types";
+import { IKImage, IKUpload, ImageKitProvider } from "imagekitio-next";
 export default function Home() {
+
+  const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
+  const urlEndpoint = process.env.NEXT_PUBLIC_IMAGEKIT_URL;
+  const authenticator: () => Promise<AuthResponse> = async () => {
+    try {
+      const response = await fetch("/api/auth");
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Request failed with status ${response.status}: ${errorText}`);
+      }
+      const data = await response.json();
+      const signature = String(data.signature);
+      const expire = Number(data.expire);
+      const token = String(data.token);
+
+      return { signature, expire, token };
+    } catch (error:any) {
+      throw new Error(`Authentication request failed: ${error.message}`);
+    }
+  };
   return (
     <div>
-      <IKImage
-        urlEndpoint={process.env.NEXT_PUBLIC_IMAGEKIT_URL}
-        path="12.jpeg"
-        alt="text"
-        width={400}
-        height={400}
-        transformation={[
-          { raw: "l-text,i-didn't post today,fs-20,l-end" },
-        ]}
-      />
+      <ImageKitProvider publicKey={publicKey} authenticator={authenticator!} urlEndpoint={urlEndpoint}>
+        <IKImage
+          path={"12.jpeg"}
+          alt="text"
+          width={400}
+          height={400}
+          transformation={[
+            { raw: "l-text,i-didn't post today,fs-20,l-end" },
+          ]}
+        />
+        
+        <div>
+          <h2>File Upload</h2>
+          <IKUpload
+          fileName={"12.jpeg"}
+          onError={(error) => {
+            console.error("Upload error:", error);
+          }}
+          onSuccess={(response) => {
+            console.log("Upload successful", response);
+          }}
+        />
+        </div>
+        
+      </ImageKitProvider>
     </div>
   );
 }
