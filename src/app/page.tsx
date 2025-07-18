@@ -6,9 +6,12 @@ export default function Home() {
       <IKImage
         urlEndpoint={process.env.NEXT_PUBLIC_IMAGEKIT_URL}
         path="12.jpeg"
+        alt="text"
         width={400}
         height={400}
-        alt="someone called me gay"
+        transformation={[
+          { raw: "l-text,i-didn't post today,fs-20,l-end" },
+        ]}
       />
     </div>
   );
