@@ -1,14 +1,14 @@
-import Image from "next/image";
-
+"use client";
+import { IKImage } from "imagekitio-next";
 export default function Home() {
   return (
-    <div className="bg-black">
-      <Image
-        src="https://ik.imagekit.io/jgj9xx779/tr:w-800,h-800,l-text,i-hello,l-end/tr=l-text,i-gay/12.jpeg?updatedAt=1752794741390"
-        alt="meme"
-        width={800}
-        height={800}
-        layout="intrinsic"
+    <div>
+      <IKImage
+        urlEndpoint={process.env.NEXT_PUBLIC_IMAGEKIT_URL}
+        path="12.jpeg"
+        width={400}
+        height={400}
+        alt="someone called me gay"
       />
     </div>
   );
