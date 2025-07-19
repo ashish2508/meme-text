@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import type { AuthResponse } from "@/types/types";
 import { IKImage, IKUpload, ImageKitProvider } from "imagekitio-next";
 import { useState } from "react";
@@ -25,6 +26,7 @@ export default function Home() {
   };
   return (
     <div>
+      <Button>Click me</Button>
       <ImageKitProvider publicKey={publicKey} authenticator={authenticator!} urlEndpoint={urlEndpoint}>
         {filePath && (
         <IKImage
