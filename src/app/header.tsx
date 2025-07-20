@@ -1,3 +1,4 @@
+import { ThemeToggle } from "@/components/themeToggle";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -5,9 +6,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ThemeToggle } from "@/components/themeToggle";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { CircleUser, Menu, Package2, Search } from "lucide-react";
+import { CircleUser, Menu, Package2, Package2Icon, Search } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { SearchInput } from "./search-input";
@@ -20,11 +20,11 @@ export async function Header() {
     <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
         <Link
-          href="#"
+          href="/"
           className="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
-          <Package2 className="h-6 w-6" />
-          <span className="sr-only">Acme Inc</span>
+          <Package2Icon className="h-6 w-6" />
+          <span className="sr-only">Memeify</span>
         </Link>
         <Link
           href="/search?q="
@@ -32,7 +32,7 @@ export async function Header() {
         >
           Browse
         </Link>
-        {session  && (
+        {session && (
           <Link
             href="/favorites"
             className="text-muted-foreground hover:text-foreground"
@@ -55,7 +55,7 @@ export async function Header() {
               className="flex items-center gap-2 text-lg font-semibold"
             >
               <Package2 className="h-6 w-6" />
-              <span className="sr-only">Acme Inc</span>
+              <span className="sr-only">Memeify</span>
             </Link>
             <Link
               href="/search?q="

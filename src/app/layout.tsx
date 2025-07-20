@@ -15,7 +15,7 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Meme Text",
+  title: "Memeify",
   description: "Edit the meme templte and make them go viral",
 };
 
