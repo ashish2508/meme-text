@@ -7,10 +7,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { CircleUser, Menu, Package2, Package2Icon, Search } from "lucide-react";
+import { CircleUser, MenuIcon, Search } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { SearchInput } from "./search-input";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+
 // import { auth, signIn, signOut } from "@/auth";
 
 export async function Header() {
@@ -23,7 +26,14 @@ export async function Header() {
           href="/"
           className="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
-          <Package2Icon className="h-6 w-6" />
+          <Image
+            src={"/logo.png"}
+            alt={'Memeify Logo'}
+            width={120}
+            height={100}
+            className="h-6 w-full md:h-8"
+            priority
+          />
           <span className="sr-only">Memeify</span>
         </Link>
         <Link
@@ -44,17 +54,24 @@ export async function Header() {
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="shrink-0 md:hidden">
-            <Menu className="h-5 w-5" />
+            <MenuIcon className="h-5 w-5" />
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
         <SheetContent side="left">
           <nav className="grid gap-6 text-lg font-medium">
             <Link
-              href="#"
+              href="/"
               className="flex items-center gap-2 text-lg font-semibold"
             >
-              <Package2 className="h-6 w-6" />
+              <Image
+                src={"/logo.png"}
+                alt={'Memeify Logo'}
+                width={120}
+                height={100}
+                className="h-6 w-auto md:h-8"
+                priority
+              />
               <span className="sr-only">Memeify</span>
             </Link>
             <Link
@@ -116,10 +133,14 @@ async function AccountMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" size="icon" className="rounded-full">
-          <CircleUser className="h-5 w-5" />
-          <span className="sr-only">Toggle user menu</span>
-        </Button>
+        <VisuallyHidden>
+
+          <Button variant="secondary" size="icon" className="rounded-full">
+            <CircleUser className="h-5 w-5" />
+            <span className="sr-only">Toggle user menu</span>
+          </Button>
+        </VisuallyHidden>
+
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem>
