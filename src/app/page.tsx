@@ -6,7 +6,7 @@ import { useState } from "react";
 export default function Home() {
   const [filePath,setFilePath]= useState("");
   const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
-  const urlEndpoint = process.env.NEXT_PUBLIC_IMAGEKIT_URL;
+  const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
   const authenticator: () => Promise<AuthResponse> = async () => {
     try {
       const response = await fetch("/api/auth");
@@ -43,7 +43,7 @@ export default function Home() {
         <div>
           <h2>File Upload</h2>
           <IKUpload
-            fileName={"12.jpeg"}
+            fileName={"img_001.jpeg"}
             onError={(error) => {
               console.error("Upload error:", error);
             }}
