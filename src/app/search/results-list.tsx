@@ -15,13 +15,8 @@ import { HeartFilledIcon } from "@radix-ui/react-icons";
 
 export function ResultsList({
   files,
-  counts,
 }: {
   files: FileObject[];
-  counts: {
-    memeId: string;
-    count: number;
-  }[];
 }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -32,7 +27,6 @@ export function ResultsList({
               <div>{file.customMetadata?.displayName ?? file.name} </div>
               <div className="flex gap-1 items-center">
                 <HeartFilledIcon />
-                {counts.find((c) => c.memeId === file.fileId)?.count ?? 0}
               </div>
             </CardTitle>
           </CardHeader>

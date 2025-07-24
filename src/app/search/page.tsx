@@ -1,5 +1,6 @@
 import { imagekit } from "../lib/image-kit";
 import { unstable_noStore } from 'next/cache';
+import { ResultsList } from "./results-list";
 
 export default async function SearchPage({
   searchParams,
@@ -16,11 +17,14 @@ export default async function SearchPage({
   }).catch((error:any) => {
     console.error('Error fetching files:', error);
   });
+  const favoriteCounts = 10;
   return (
     <div>{files.map((file:any) => {
       return (
         <div key={file.fileId}>
           <h3>{file.name}</h3>
+          <ResultsList files={files} />
+
         </div>
       );
     })}</div>
