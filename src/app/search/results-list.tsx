@@ -12,11 +12,17 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { HeartFilledIcon } from "@radix-ui/react-icons";
+import { urlEndpoint } from "../providers";
 
 export function ResultsList({
   files,
+  counts=[]
 }: {
   files: FileObject[];
+    counts?: { 
+      memeId: string;
+      count: number;
+    }[];
 }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -34,6 +40,7 @@ export function ResultsList({
             <IKImage
               key={file.fileId}
               path={file.filePath}
+              urlEndpoint={urlEndpoint}
               alt={file.name}
               width={300}
               height={300}

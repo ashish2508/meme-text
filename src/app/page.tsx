@@ -3,10 +3,10 @@ import { Button } from "@/components/ui/button";
 import type { AuthResponse } from "@/types/types";
 import { IKImage, IKUpload, ImageKitProvider } from "imagekitio-next";
 import { useState } from "react";
+import { urlEndpoint } from "./providers";
 export default function Home() {
   const [filePath,setFilePath]= useState("");
   const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
-  const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
   const authenticator: () => Promise<AuthResponse> = async () => {
     try {
       const response = await fetch("/api/auth");
@@ -43,7 +43,7 @@ export default function Home() {
         <div>
           <h2>File Upload</h2>
           <IKUpload
-            fileName={"img_001.jpeg"}
+            fileName={"img_.jpeg"}
             onError={(error) => {
               console.error("Upload error:", error);
             }}
