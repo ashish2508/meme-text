@@ -43,7 +43,7 @@ export function ResultsList({
               urlEndpoint={urlEndpoint}
               alt={file.name}
               width={300}
-              height={300}
+              height={330}
             />
           </CardContent>
           <CardFooter>
