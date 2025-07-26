@@ -96,8 +96,8 @@ export function UploadMemeButton() {
               </DialogClose>
 
               <Button disabled={isUploading} type="submit" className="hover:bg-zinc-400">
-                {true ? (
-                  <span className="w-4 h-4 border-2 border-emerald-900 border-r-transparent rounded-full animate-spin" />
+                {isUploading ? (
+                  <span className="w-4 h-4 border-2 border-emerald-600 border-l-transparent rounded-full animate-spin" />
                 ) : (
                   'Select & Upload Image'
                 )}
