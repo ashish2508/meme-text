@@ -42,8 +42,6 @@ export function ResultsList({
               path={file.filePath}
               urlEndpoint={urlEndpoint}
               alt={file.name}
-              width={300}
-              height={330}
             />
           </CardContent>
           <CardFooter>

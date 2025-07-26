@@ -1,7 +1,7 @@
 import { unstable_noStore } from "next/cache";
+import { imagekit } from "../lib/image-kit";
 import { ResultsList } from "./results-list";
 import { UploadMemeButton } from "./upload-meme-button";
-import { imagekit } from "../lib/image-kit";
 
 export default async function SearchPage({
   searchParams,
@@ -22,8 +22,7 @@ export default async function SearchPage({
         <h1 className="text-4xl font-bold">Search Results</h1>
         <UploadMemeButton />
       </div>
-
-      <ResultsList files={files}  />
+      <ResultsList files={files} />
     </div>
   );
 }
