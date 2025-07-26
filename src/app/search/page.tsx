@@ -1,4 +1,3 @@
-// Option 1: Client-side fuzzy matching (simpler but less efficient for large datasets)
 import { unstable_noStore } from "next/cache";
 import { imagekit } from "../lib/image-kit";
 import { FileObject } from "imagekit/dist/libs/interfaces";
