@@ -54,8 +54,14 @@ export default async function SearchPage({
     const file = item as FileObject;
     const displayName = file.customMetadata?.displayName || file.name;
 
-    return fuzzySearch(query, String(displayName)) ||
+    const nameMatch = fuzzySearch(query, String(displayName)) ||
       (file.name !== displayName && fuzzySearch(query, file.name));
+
+    const tagMatch = file.tags && file.tags.some(tag =>
+      fuzzySearch(query, String(tag))
+    );
+
+    return nameMatch || tagMatch;
   });
 
   return (
