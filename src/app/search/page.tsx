@@ -3,25 +3,8 @@ import { imagekit } from "../lib/image-kit";
 import { FileObject } from "imagekit/dist/libs/interfaces";
 import { ResultsList } from "./results-list";
 import { UploadMemeButton } from "./upload-meme-button";
+import fuzzySearch from "../lib/fuzzy-search";
 
-function fuzzySearch(query: string, text: string): boolean {
-  const normalizedQuery = query.toLowerCase().trim();
-  const normalizedText = text.toLowerCase();
-  
-  if (normalizedQuery.length <= 2) return normalizedText === normalizedQuery || normalizedText.includes(normalizedQuery);
-  
-  if (normalizedText.includes(normalizedQuery)) return true;  
-  
-  let queryIndex = 0, matchCount = 0;
-  for (let i = 0; i < normalizedText.length && queryIndex < normalizedQuery.length; i++) {
-    if (normalizedText[i] === normalizedQuery[queryIndex]) {
-      matchCount++;
-      queryIndex++;
-    }
-  }
-  const matchRatio = matchCount / normalizedQuery.length;
-  return matchRatio >= 0.7;
-}
 
 export default async function SearchPage({
   searchParams,
