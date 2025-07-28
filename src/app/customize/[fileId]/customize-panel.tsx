@@ -190,6 +190,9 @@ export function CustomizePanel({
           className="relative inline-block overflow-hidden mx-auto"
           style={{ width: 400, height: 400 }}
         >
+          <div
+          className="flex flex-col-4 gap-4"
+          >
           <IKImage
             path={file.filePath}
             urlEndpoint={urlEndpoint}
@@ -205,7 +208,7 @@ export function CustomizePanel({
               ].filter(Boolean) as any
             }
           />
-
+          </div>
           {textOverlay1 && (
             <div
               ref={elementRef1}
