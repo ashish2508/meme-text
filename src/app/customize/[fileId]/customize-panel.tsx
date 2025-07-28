@@ -1,11 +1,13 @@
 "use client"
 import { urlEndpoint } from "@/app/providers";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useDraggable } from "@/hooks/useDraggable";
 import type { FileObject } from "imagekit/dist/libs/interfaces";
 import { IKImage } from "imagekitio-next";
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
+import { Card } from "@/components/ui/card";
 
 export function CustomizePanel({
   file,
@@ -18,7 +20,9 @@ export function CustomizePanel({
   const [textOverlay4, setTextOverlay4] = useState<string>("");
 
   const sharedContainerRef = useRef<HTMLDivElement>(null);
-
+  const [blur, setBlur] = useState(false);
+  const [sharpen, setSharpen] = useState(false);
+  const [grayscale, setGrayscale] = useState(false);
   const {
     position: position1,
     elementRef: elementRef1,
@@ -61,6 +65,59 @@ export function CustomizePanel({
 
   return (
     <div className="space-y-6">
+      <div>
+        <Card className="p-4 space-y-4">
+          <h2 className="text-xl">Effects</h2>
+
+          <div className="flex gap-4">
+            <div className="flex gap-2">
+              <Checkbox
+                checked={blur}
+                onCheckedChange={(v) => {
+                  setBlur(v as boolean);
+                }}
+                id="blur"
+              />
+              <label
+                htmlFor="blur"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Blur
+              </label>
+            </div>
+            <div className="flex gap-2">
+              <Checkbox
+                checked={sharpen}
+                onCheckedChange={(v) => {
+                  setSharpen(v as boolean);
+                }}
+                id="sharpen"
+              />
+              <label
+                htmlFor="sharpen"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Sharpen
+              </label>
+            </div>
+            <div className="flex gap-2">
+              <Checkbox
+                checked={grayscale}
+                onCheckedChange={(v) => {
+                  setGrayscale(v as boolean);
+                }}
+                id="grayscale"
+              />
+              <label
+                htmlFor="grayscale"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Grayscale
+              </label>
+            </div>
+          </div>
+        </Card>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <form
           action=""
@@ -140,6 +197,13 @@ export function CustomizePanel({
             width={400}
             height={400}
             className="select-none"
+            transformation={
+              [
+                blur ? { raw: "bl-3" } : undefined,
+                sharpen ? { raw: "e-sharpen-10" } : undefined,
+                grayscale ? { raw: "e-grayscale" } : undefined,
+              ].filter(Boolean) as any
+            }
           />
 
           {textOverlay1 && (
