@@ -15,13 +15,16 @@ export default async function CustomizePage({
 
   return (
     <div className="container mx-auto space-y-8 py-8 px-4">
-  <h1 className="text-3xl font-bold sm:text-4xl text-gray-800 dark:text-cyan-400/50">
-    Customizing template:
-  </h1>
+      <h1
+        className="text-3xl font-bold sm:text-4xl bg-gradient-to-t from-[#ff9a9e] to-[#fecfef] bg-clip-text text-transparent"
+      >
+        Customizing template:
+      </h1>
+
   
   <p className="text-4xl sm:text-5xl cursor-pointer font-medium">
     <a href={`/search?q=${file.customMetadata?.displayName || file.name}`}
-      className="text-rose-600/40 dark:text-gray-400 hover:underline hover:text-zinc-400 dark:hover:text-gray-300">
+          className="text-3xl font-bold sm:text-4xl bg-[linear-gradient(to_right,#ff8177_0%,#ff867a_0%,#ff8c7f_21%,#f99185_52%,#cf556c_78%,#b12a5b_100%)] bg-clip-text text-transparent hover:underline hover:text-zinc-400 dark:hover:text-gray-300">
       {file.customMetadata?.displayName || file.name}
     </a>
   </p>
