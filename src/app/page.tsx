@@ -34,9 +34,6 @@ export default function Home() {
           alt="text"
           width={400}
           height={400}
-          transformation={[
-            { raw: "l-text,i-didn't post today,fs-20,l-end" },
-          ]}
         /> 
         )}
 
