@@ -15,6 +15,7 @@ interface UseDraggableReturn {
   containerRef: React.RefObject<HTMLDivElement>;
   elementRef: React.RefObject<HTMLDivElement>;
   handleMouseDown: (e: React.MouseEvent) => void;
+  handleTouchStart: (e: React.TouchEvent) => void; 
 }
 
 export function useDraggable(options: UseDraggableOptions = {}): UseDraggableReturn {
@@ -38,14 +39,28 @@ export function useDraggable(options: UseDraggableOptions = {}): UseDraggableRet
     });
   }, []);
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
+  
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    if (!elementRef.current) return;
+
+    e.preventDefault(); 
+    setIsDragging(true);
+    const touch = e.touches[0];
+    const rect = elementRef.current.getBoundingClientRect();
+    setDragOffset({
+      x: touch.clientX - rect.left,
+      y: touch.clientY - rect.top
+    });
+  }, []);
+
+  const handleMove = useCallback((clientX: number, clientY: number) => {
     if (!isDragging || !containerRef.current || !elementRef.current) return;
 
     const containerRect = containerRef.current.getBoundingClientRect();
     const elementRect = elementRef.current.getBoundingClientRect();
 
-    let newX = e.clientX - containerRect.left - dragOffset.x;
-    let newY = e.clientY - containerRect.top - dragOffset.y;
+    let newX = clientX - containerRect.left - dragOffset.x;
+    let newY = clientY - containerRect.top - dragOffset.y;
 
     const maxX = containerRect.width - elementRect.width;
     const maxY = containerRect.height - elementRect.height;
@@ -56,21 +71,37 @@ export function useDraggable(options: UseDraggableOptions = {}): UseDraggableRet
     setPosition({ x: newX, y: newY });
   }, [isDragging, dragOffset]);
 
-  const handleMouseUp = useCallback(() => {
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    handleMove(e.clientX, e.clientY);
+  }, [handleMove]);
+
+  const handleTouchMove = useCallback((e: TouchEvent) => {
+    e.preventDefault(); 
+    const touch = e.touches[0];
+    handleMove(touch.clientX, touch.clientY);
+  }, [handleMove]);
+
+  const handleEnd = useCallback(() => {
     setIsDragging(false);
   }, []);
 
   useEffect(() => {
     if (isDragging) {
+    
       document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
+      document.addEventListener('mouseup', handleEnd);
+      
+      document.addEventListener('touchmove', handleTouchMove, { passive: false });
+      document.addEventListener('touchend', handleEnd);
 
       return () => {
         document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
+        document.removeEventListener('mouseup', handleEnd);
+        document.removeEventListener('touchmove', handleTouchMove);
+        document.removeEventListener('touchend', handleEnd);
       };
     }
-  }, [isDragging, handleMouseMove, handleMouseUp]);
+  }, [isDragging, handleMouseMove, handleTouchMove, handleEnd]);
 
   return {
     position,
@@ -78,5 +109,6 @@ export function useDraggable(options: UseDraggableOptions = {}): UseDraggableRet
     containerRef,
     elementRef,
     handleMouseDown,
+    handleTouchStart, 
   };
 }
