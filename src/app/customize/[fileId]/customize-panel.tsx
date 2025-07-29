@@ -1,8 +1,10 @@
 "use client";
 import { urlEndpoint } from "@/app/providers";
 import Element from "@/components/element";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useDraggable } from "@/hooks/useDraggable";
 import { useImageEffects } from "@/hooks/useImageEffects";
@@ -23,7 +25,7 @@ export function CustomizePanel({
   const sharedContainerRef = useRef<HTMLDivElement>(null);
 
   const { blur, border, sharpen, grayscale, croprounded, setBlur, setBorder, setSharpen, setGrayscale, setCropRounded } = useImageEffects();
-
+  const [fontSize, setFontSize] = useState<string>("20");
   const {
     position: position1,
     elementRef: elementRef1,
@@ -65,10 +67,10 @@ export function CustomizePanel({
   });
 
   return (
-    <div className="space-y-6">
-      <div>
-        <Card className="space-y-4 p-4">
-          <h2 className="text-xl">Effects</h2>
+    <div className="space-y-7">
+      <div className="flex flex-col gap-4 md:flex-row md:items-stretch ">
+        <Card className="space-y-4 p-4 w-fit border-2 border-pink-500/20">
+          <h2 className="text-xl font-semibold">Effects</h2>
           <div className="flex gap-4">
             <Element s="blur" checked={blur} onCheckedChange={setBlur} />
             <Element s="border" checked={border} onCheckedChange={setBorder} />
@@ -76,9 +78,30 @@ export function CustomizePanel({
             <Element s="grayscale" checked={grayscale} onCheckedChange={setGrayscale} />
             <Element s="Crop Rounded" checked={croprounded} onCheckedChange={setCropRounded} />
           </div>
-
+        </Card>
+        <Card className="space-y-4 p-4 w-fit h-full border-2 border-pink-500/20">
+          <h2 className="text-xl font-semibold">Font Size</h2>
+          <div className="flex justify-center items-center gap-7">
+            <div className="space-y-4 flex justify-start items-start flex-col">
+              <Select value={fontSize} onValueChange={setFontSize}>
+                <SelectTrigger className="w-20">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="16">16px</SelectItem>
+                  <SelectItem value="20">20px</SelectItem>
+                  <SelectItem value="24">24px</SelectItem>
+                  <SelectItem value="28">28px</SelectItem>
+                  <SelectItem value="32">32px</SelectItem>
+                  <SelectItem value="36">36px</SelectItem>
+                  <SelectItem value="40">40px</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
         </Card>
       </div>
+
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         <form
           action=""
@@ -93,7 +116,7 @@ export function CustomizePanel({
             }
             value={textOverlay1}
             placeholder="Enter text for overlay 1"
-            className="scrollbar-hide flex w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="scrollbar-hide w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             rows={2}
           />
         </form>
@@ -111,7 +134,7 @@ export function CustomizePanel({
             }
             value={textOverlay2}
             placeholder="Enter text for overlay 2"
-            className="scrollbar-hide flex w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="scrollbar-hide w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             rows={2}
           />
         </form>
@@ -129,7 +152,7 @@ export function CustomizePanel({
             }
             value={textOverlay3}
             placeholder="Enter text for overlay 3"
-            className="scrollbar-hide flex w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="scrollbar-hide w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             rows={2}
           />
         </form>
@@ -147,45 +170,44 @@ export function CustomizePanel({
             }
             value={textOverlay4}
             placeholder="Enter text for overlay 4"
-            className="scrollbar-hide flex w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="scrollbar-hide w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             rows={2}
           />
         </form>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center items-center gap-8">
         <div
           ref={sharedContainerRef}
-          className="relative mx-auto inline-block overflow-hidden"
+          className="relative inline-block overflow-hidden"
           style={{ width: 400, height: 400 }}
         >
-          <div className="flex flex-col-4 gap-4">
-            <IKImage
-              path={file.filePath}
-              urlEndpoint={urlEndpoint}
-              alt={file.name}
-              width={400}
-              height={400}
-              className="select-none"
-              transformation={
-                [
-                  blur ? { raw: "bl-3" } : undefined,
-                  sharpen ? { raw: "e-sharpen-10" } : undefined,
-                  grayscale ? { raw: "e-grayscale" } : undefined,
-                  border ? { raw: "b-80-000000" } : undefined,
-                  croprounded ? { raw: "r-max" } : undefined,
-                ].filter(Boolean) as any
-              }
-            />
-          </div>
+          <IKImage
+            path={file.filePath}
+            urlEndpoint={urlEndpoint}
+            alt={file.name}
+            width={400}
+            height={400}
+            className="select-none"
+            transformation={
+              [
+                blur ? { raw: "bl-3" } : undefined,
+                sharpen ? { raw: "e-sharpen-10" } : undefined,
+                grayscale ? { raw: "e-grayscale" } : undefined,
+                border ? { raw: "b-80-000000" } : undefined,
+                croprounded ? { raw: "r-max" } : undefined,
+              ].filter(Boolean) as any
+            }
+          />
+
           {textOverlay1 && (
             <div
               ref={elementRef1}
-              className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 text-lg font-bold font-semibold text-white active:cursor-grabbing"
+              className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-bold text-black/80 active:cursor-grabbing"
               style={{
                 left: position1.x,
                 top: position1.y,
-                userSelect: "none",
+                fontSize: `${fontSize}px`,
               }}
               onMouseDown={handleMouseDown1}
               onTouchStart={handleTouchStart1}
@@ -197,11 +219,11 @@ export function CustomizePanel({
           {textOverlay2 && (
             <div
               ref={elementRef2}
-              className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 text-lg font-bold font-semibold text-white active:cursor-grabbing"
+              className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-bold text-black/80 active:cursor-grabbing"
               style={{
                 left: position2.x,
                 top: position2.y,
-                userSelect: "none",
+                fontSize: `${fontSize}px`,
               }}
               onMouseDown={handleMouseDown2}
               onTouchStart={handleTouchStart2}
@@ -213,11 +235,11 @@ export function CustomizePanel({
           {textOverlay3 && (
             <div
               ref={elementRef3}
-              className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 text-lg font-bold font-semibold text-white active:cursor-grabbing"
+              className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-bold text-black/80 active:cursor-grabbing"
               style={{
                 left: position3.x,
                 top: position3.y,
-                userSelect: "none",
+                fontSize: `${fontSize}px`,
               }}
               onMouseDown={handleMouseDown3}
               onTouchStart={handleTouchStart3}
@@ -229,11 +251,11 @@ export function CustomizePanel({
           {textOverlay4 && (
             <div
               ref={elementRef4}
-              className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded px-2 py-1 text-lg font-bold font-semibold text-white active:cursor-grabbing"
+              className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-bold text-black/80 active:cursor-grabbing"
               style={{
                 left: position4.x,
                 top: position4.y,
-                userSelect: "none",
+                fontSize: `${fontSize}px`,
               }}
               onMouseDown={handleMouseDown4}
               onTouchStart={handleTouchStart4}
@@ -241,6 +263,11 @@ export function CustomizePanel({
               {textOverlay4}
             </div>
           )}
+
+        </div>
+
+        <div className="flex items-center">
+          <Button className="px-8 py-4 text-lg font-semibold">Download Image</Button>
         </div>
       </div>
     </div>
