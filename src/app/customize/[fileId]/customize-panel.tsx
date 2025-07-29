@@ -2,14 +2,13 @@
 import { urlEndpoint } from "@/app/providers";
 import Element from "@/components/element";
 import { Card } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useDraggable } from "@/hooks/useDraggable";
+import { useImageEffects } from "@/hooks/useImageEffects";
 import type { FileObject } from "imagekit/dist/libs/interfaces";
 import { IKImage } from "imagekitio-next";
 import { useRef, useState } from "react";
-import { useImageEffects } from "@/hooks/useImageEffects";
 
 export function CustomizePanel({
   file,
@@ -22,8 +21,9 @@ export function CustomizePanel({
   const [textOverlay4, setTextOverlay4] = useState<string>("");
 
   const sharedContainerRef = useRef<HTMLDivElement>(null);
-  const { blur, border, sharpen, grayscale, setBlur, setBorder, setSharpen, setGrayscale } = useImageEffects();
-  
+
+  const { blur, border, sharpen, grayscale, croprounded, setBlur, setBorder, setSharpen, setGrayscale, setCropRounded } = useImageEffects();
+
   const {
     position: position1,
     elementRef: elementRef1,
@@ -74,6 +74,7 @@ export function CustomizePanel({
             <Element s="border" checked={border} onCheckedChange={setBorder} />
             <Element s="sharpen" checked={sharpen} onCheckedChange={setSharpen} />
             <Element s="grayscale" checked={grayscale} onCheckedChange={setGrayscale} />
+            <Element s="Crop Rounded" checked={croprounded} onCheckedChange={setCropRounded} />
           </div>
 
         </Card>
@@ -171,8 +172,8 @@ export function CustomizePanel({
                   blur ? { raw: "bl-3" } : undefined,
                   sharpen ? { raw: "e-sharpen-10" } : undefined,
                   grayscale ? { raw: "e-grayscale" } : undefined,
-                  border ? { raw: "b-80-eeeee" } : undefined,
-                  
+                  border ? { raw: "b-80-000000" } : undefined,
+                  croprounded ? { raw: "r-max" } : undefined,
                 ].filter(Boolean) as any
               }
             />
