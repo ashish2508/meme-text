@@ -2,6 +2,7 @@
 import { urlEndpoint } from "@/app/providers";
 import DownloadButton from "@/components/Download-Button";
 import Element from "@/components/element";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -75,7 +76,9 @@ export function CustomizePanel({
           Customizing template:
         </h1>
         <div className="flex items-center">
-          <DownloadButton />
+          <Button variant="ghost" className="hover:bg-transparent">
+            <DownloadButton />
+          </Button>
         </div>
       </div>
       <div className="space-y-7">
@@ -91,7 +94,7 @@ export function CustomizePanel({
             </div>
           </Card>
           <Card className="space-y-4 p-4 w-[15%] max-md:w-fit h-full border-2 border-pink-500/20">
-            <h2 className="flex text-2xl font-bold items-center justify-center">Font Size</h2>
+            <h2 className="flex text-2xl font-semibold items-center justify-center">Font Size</h2>
             <div className="flex justify-center items-center gap-7">
               <div className="space-y-4 flex justify-start items-start flex-col">
                 <Select value={fontSize} onValueChange={setFontSize}>
@@ -193,28 +196,31 @@ export function CustomizePanel({
             className="relative inline-block overflow-hidden"
             style={{ width: 400, height: 400 }}
           >
-            <IKImage
-              path={file.filePath}
-              urlEndpoint={urlEndpoint}
-              alt={file.name}
-              width={400}
-              height={400}
-              className="select-none"
-              transformation={
-                [
-                  blur ? { raw: "bl-3" } : undefined,
-                  sharpen ? { raw: "e-sharpen-10" } : undefined,
-                  grayscale ? { raw: "e-grayscale" } : undefined,
-                  border ? { raw: "b-80-000000" } : undefined,
-                  croprounded ? { raw: "r-max" } : undefined,
-                ].filter(Boolean) as any
-              }
-            />
+            <div id="meme">
+
+              <IKImage
+                path={file.filePath}
+                urlEndpoint={urlEndpoint}
+                alt={file.name}
+                width={400}
+                height={400}
+                className="select-none"
+                transformation={
+                  [
+                    blur ? { raw: "bl-3" } : undefined,
+                    sharpen ? { raw: "e-sharpen-10" } : undefined,
+                    grayscale ? { raw: "e-grayscale" } : undefined,
+                    border ? { raw: "b-80-000000" } : undefined,
+                    croprounded ? { raw: "r-max" } : undefined,
+                  ].filter(Boolean) as any
+                }
+              />
+            </div>
 
             {textOverlay1 && (
               <div
                 ref={elementRef1}
-                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-bold text-black/80 active:cursor-grabbing"
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-black active:cursor-grabbing"
                 style={{
                   left: position1.x,
                   top: position1.y,
@@ -230,7 +236,7 @@ export function CustomizePanel({
             {textOverlay2 && (
               <div
                 ref={elementRef2}
-                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-bold text-black/80 active:cursor-grabbing"
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-black active:cursor-grabbing"
                 style={{
                   left: position2.x,
                   top: position2.y,
@@ -246,7 +252,7 @@ export function CustomizePanel({
             {textOverlay3 && (
               <div
                 ref={elementRef3}
-                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-bold text-black/80 active:cursor-grabbing"
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-black active:cursor-grabbing"
                 style={{
                   left: position3.x,
                   top: position3.y,
@@ -262,7 +268,7 @@ export function CustomizePanel({
             {textOverlay4 && (
               <div
                 ref={elementRef4}
-                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-bold text-black/80 active:cursor-grabbing"
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-black active:cursor-grabbing"
                 style={{
                   left: position4.x,
                   top: position4.y,
