@@ -1,7 +1,7 @@
 "use client";
 import { urlEndpoint } from "@/app/providers";
+import DownloadButton from "@/components/Download-Button";
 import Element from "@/components/element";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -70,7 +70,7 @@ export function CustomizePanel({
     <div className="space-y-7">
       <div className="flex flex-col gap-4 md:flex-row md:items-stretch ">
         <Card className="space-y-4 p-4 w-fit border-2 border-pink-500/20">
-          <h2 className="text-xl font-semibold">Effects</h2>
+          <h2 className="text-2xl font-semibold">Effects</h2>
           <div className="flex gap-4">
             <Element s="blur" checked={blur} onCheckedChange={setBlur} />
             <Element s="border" checked={border} onCheckedChange={setBorder} />
@@ -79,8 +79,8 @@ export function CustomizePanel({
             <Element s="Crop Rounded" checked={croprounded} onCheckedChange={setCropRounded} />
           </div>
         </Card>
-        <Card className="space-y-4 p-4 w-fit h-full border-2 border-pink-500/20">
-          <h2 className="text-xl font-semibold">Font Size</h2>
+        <Card className="space-y-4 p-4 w-[15%] max-md:w-fit h-full border-2 border-pink-500/20">
+          <h2 className="flex text-2xl font-bold items-center justify-center">Font Size</h2>
           <div className="flex justify-center items-center gap-7">
             <div className="space-y-4 flex justify-start items-start flex-col">
               <Select value={fontSize} onValueChange={setFontSize}>
@@ -116,7 +116,7 @@ export function CustomizePanel({
             }
             value={textOverlay1}
             placeholder="Enter text for overlay 1"
-            className="scrollbar-hide w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="scrollbar-hide w-full resize-none rounded-md border border-pink-500/20 bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             rows={2}
           />
         </form>
@@ -134,7 +134,7 @@ export function CustomizePanel({
             }
             value={textOverlay2}
             placeholder="Enter text for overlay 2"
-            className="scrollbar-hide w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="border-pink-500/20 scrollbar-hide w-full resize-none rounded-md border  bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             rows={2}
           />
         </form>
@@ -152,7 +152,7 @@ export function CustomizePanel({
             }
             value={textOverlay3}
             placeholder="Enter text for overlay 3"
-            className="scrollbar-hide w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="border-pink-500/20 scrollbar-hide w-full resize-none rounded-md border  bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             rows={2}
           />
         </form>
@@ -170,7 +170,7 @@ export function CustomizePanel({
             }
             value={textOverlay4}
             placeholder="Enter text for overlay 4"
-            className="scrollbar-hide w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="border-pink-500/20 scrollbar-hide w-full resize-none rounded-md border  bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             rows={2}
           />
         </form>
@@ -267,7 +267,7 @@ export function CustomizePanel({
         </div>
 
         <div className="flex items-center">
-          <Button className="px-8 py-4 text-lg font-semibold">Download Image</Button>
+          <DownloadButton />
         </div>
       </div>
     </div>
