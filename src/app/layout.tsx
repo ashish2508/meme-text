@@ -65,10 +65,6 @@ export const metadata: Metadata = {
   applicationName: "Memeify",
   referrer: "origin-when-cross-origin",
 
-  // verification: {
-  //   google: "",
-  // },
-
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon-16x16.png",
