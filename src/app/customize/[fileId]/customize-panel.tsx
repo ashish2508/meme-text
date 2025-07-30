@@ -67,209 +67,218 @@ export function CustomizePanel({
   });
 
   return (
-    <div className="space-y-7">
-      <div className="flex flex-col gap-4 md:flex-row md:items-stretch ">
-        <Card className="space-y-4 p-4 w-fit border-2 border-pink-500/20">
-          <h2 className="text-2xl font-semibold">Effects</h2>
-          <div className="flex gap-4">
-            <Element s="blur" checked={blur} onCheckedChange={setBlur} />
-            <Element s="border" checked={border} onCheckedChange={setBorder} />
-            <Element s="sharpen" checked={sharpen} onCheckedChange={setSharpen} />
-            <Element s="grayscale" checked={grayscale} onCheckedChange={setGrayscale} />
-            <Element s="Crop Rounded" checked={croprounded} onCheckedChange={setCropRounded} />
-          </div>
-        </Card>
-        <Card className="space-y-4 p-4 w-[15%] max-md:w-fit h-full border-2 border-pink-500/20">
-          <h2 className="flex text-2xl font-bold items-center justify-center">Font Size</h2>
-          <div className="flex justify-center items-center gap-7">
-            <div className="space-y-4 flex justify-start items-start flex-col">
-              <Select value={fontSize} onValueChange={setFontSize}>
-                <SelectTrigger className="w-20">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="16">16px</SelectItem>
-                  <SelectItem value="20">20px</SelectItem>
-                  <SelectItem value="24">24px</SelectItem>
-                  <SelectItem value="28">28px</SelectItem>
-                  <SelectItem value="32">32px</SelectItem>
-                  <SelectItem value="36">36px</SelectItem>
-                  <SelectItem value="40">40px</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </Card>
-      </div>
-
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <form
-          action=""
-          className="space-y-2"
-          onSubmit={(e) => e.preventDefault()}
+    <>
+      <div className="flex items-center justify-between mb-4">
+        <h1
+          className="text-xl font-semibold sm:text-3xl bg-gradient-to-t from-[#ff9a9e] to-[#fecfef] bg-clip-text text-transparent"
         >
-          <Label htmlFor="textOverlay1">Text Overlay 1</Label>
-          <Textarea
-            id="textOverlay1"
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-              setTextOverlay1(e.target.value)
-            }
-            value={textOverlay1}
-            placeholder="Enter text for overlay 1"
-            className="scrollbar-hide w-full resize-none rounded-md border border-pink-500/20 bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            rows={2}
-          />
-        </form>
-
-        <form
-          action=""
-          className="space-y-2"
-          onSubmit={(e) => e.preventDefault()}
-        >
-          <Label htmlFor="textOverlay2">Text Overlay 2</Label>
-          <Textarea
-            id="textOverlay2"
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-              setTextOverlay2(e.target.value)
-            }
-            value={textOverlay2}
-            placeholder="Enter text for overlay 2"
-            className="border-pink-500/20 scrollbar-hide w-full resize-none rounded-md border  bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            rows={2}
-          />
-        </form>
-
-        <form
-          action=""
-          className="space-y-2"
-          onSubmit={(e) => e.preventDefault()}
-        >
-          <Label htmlFor="textOverlay3">Text Overlay 3</Label>
-          <Textarea
-            id="textOverlay3"
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-              setTextOverlay3(e.target.value)
-            }
-            value={textOverlay3}
-            placeholder="Enter text for overlay 3"
-            className="border-pink-500/20 scrollbar-hide w-full resize-none rounded-md border  bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            rows={2}
-          />
-        </form>
-
-        <form
-          action=""
-          className="space-y-2"
-          onSubmit={(e) => e.preventDefault()}
-        >
-          <Label htmlFor="textOverlay4">Text Overlay 4</Label>
-          <Textarea
-            id="textOverlay4"
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-              setTextOverlay4(e.target.value)
-            }
-            value={textOverlay4}
-            placeholder="Enter text for overlay 4"
-            className="border-pink-500/20 scrollbar-hide w-full resize-none rounded-md border  bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            rows={2}
-          />
-        </form>
-      </div>
-
-      <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8">
-        <div
-          ref={sharedContainerRef}
-          className="relative inline-block overflow-hidden"
-          style={{ width: 400, height: 400 }}
-        >
-          <IKImage
-            path={file.filePath}
-            urlEndpoint={urlEndpoint}
-            alt={file.name}
-            width={400}
-            height={400}
-            className="select-none"
-            transformation={
-              [
-                blur ? { raw: "bl-3" } : undefined,
-                sharpen ? { raw: "e-sharpen-10" } : undefined,
-                grayscale ? { raw: "e-grayscale" } : undefined,
-                border ? { raw: "b-80-000000" } : undefined,
-                croprounded ? { raw: "r-max" } : undefined,
-              ].filter(Boolean) as any
-            }
-          />
-
-          {textOverlay1 && (
-            <div
-              ref={elementRef1}
-              className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-bold text-black/80 active:cursor-grabbing"
-              style={{
-                left: position1.x,
-                top: position1.y,
-                fontSize: `${fontSize}px`,
-              }}
-              onMouseDown={handleMouseDown1}
-              onTouchStart={handleTouchStart1}
-            >
-              {textOverlay1}
-            </div>
-          )}
-
-          {textOverlay2 && (
-            <div
-              ref={elementRef2}
-              className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-bold text-black/80 active:cursor-grabbing"
-              style={{
-                left: position2.x,
-                top: position2.y,
-                fontSize: `${fontSize}px`,
-              }}
-              onMouseDown={handleMouseDown2}
-              onTouchStart={handleTouchStart2}
-            >
-              {textOverlay2}
-            </div>
-          )}
-
-          {textOverlay3 && (
-            <div
-              ref={elementRef3}
-              className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-bold text-black/80 active:cursor-grabbing"
-              style={{
-                left: position3.x,
-                top: position3.y,
-                fontSize: `${fontSize}px`,
-              }}
-              onMouseDown={handleMouseDown3}
-              onTouchStart={handleTouchStart3}
-            >
-              {textOverlay3}
-            </div>
-          )}
-
-          {textOverlay4 && (
-            <div
-              ref={elementRef4}
-              className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-bold text-black/80 active:cursor-grabbing"
-              style={{
-                left: position4.x,
-                top: position4.y,
-                fontSize: `${fontSize}px`,
-              }}
-              onMouseDown={handleMouseDown4}
-              onTouchStart={handleTouchStart4}
-            >
-              {textOverlay4}
-            </div>
-          )}
-
-        </div>
-
+          Customizing template:
+        </h1>
         <div className="flex items-center">
           <DownloadButton />
         </div>
       </div>
-    </div>
+      <div className="space-y-7">
+        <div className="flex flex-col gap-4 md:flex-row md:items-stretch ">
+          <Card className="space-y-4 p-4 w-fit border-2 border-pink-500/20">
+            <h2 className="text-2xl font-semibold">Effects</h2>
+            <div className="flex gap-4">
+              <Element s="blur" checked={blur} onCheckedChange={setBlur} />
+              <Element s="border" checked={border} onCheckedChange={setBorder} />
+              <Element s="sharpen" checked={sharpen} onCheckedChange={setSharpen} />
+              <Element s="grayscale" checked={grayscale} onCheckedChange={setGrayscale} />
+              <Element s="Crop Rounded" checked={croprounded} onCheckedChange={setCropRounded} />
+            </div>
+          </Card>
+          <Card className="space-y-4 p-4 w-[15%] max-md:w-fit h-full border-2 border-pink-500/20">
+            <h2 className="flex text-2xl font-bold items-center justify-center">Font Size</h2>
+            <div className="flex justify-center items-center gap-7">
+              <div className="space-y-4 flex justify-start items-start flex-col">
+                <Select value={fontSize} onValueChange={setFontSize}>
+                  <SelectTrigger className="w-20">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="16">16px</SelectItem>
+                    <SelectItem value="20">20px</SelectItem>
+                    <SelectItem value="24">24px</SelectItem>
+                    <SelectItem value="28">28px</SelectItem>
+                    <SelectItem value="32">32px</SelectItem>
+                    <SelectItem value="36">36px</SelectItem>
+                    <SelectItem value="40">40px</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <form
+            action=""
+            className="space-y-2"
+            onSubmit={(e) => e.preventDefault()}
+          >
+            <Label htmlFor="textOverlay1">Text Overlay 1</Label>
+            <Textarea
+              id="textOverlay1"
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setTextOverlay1(e.target.value)
+              }
+              value={textOverlay1}
+              placeholder="Enter text for overlay 1"
+              className="scrollbar-hide w-full resize-none rounded-md border border-pink-500/20 bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              rows={2}
+            />
+          </form>
+
+          <form
+            action=""
+            className="space-y-2"
+            onSubmit={(e) => e.preventDefault()}
+          >
+            <Label htmlFor="textOverlay2">Text Overlay 2</Label>
+            <Textarea
+              id="textOverlay2"
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setTextOverlay2(e.target.value)
+              }
+              value={textOverlay2}
+              placeholder="Enter text for overlay 2"
+              className="border-pink-500/20 scrollbar-hide w-full resize-none rounded-md border  bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              rows={2}
+            />
+          </form>
+
+          <form
+            action=""
+            className="space-y-2"
+            onSubmit={(e) => e.preventDefault()}
+          >
+            <Label htmlFor="textOverlay3">Text Overlay 3</Label>
+            <Textarea
+              id="textOverlay3"
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setTextOverlay3(e.target.value)
+              }
+              value={textOverlay3}
+              placeholder="Enter text for overlay 3"
+              className="border-pink-500/20 scrollbar-hide w-full resize-none rounded-md border  bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              rows={2}
+            />
+          </form>
+
+          <form
+            action=""
+            className="space-y-2"
+            onSubmit={(e) => e.preventDefault()}
+          >
+            <Label htmlFor="textOverlay4">Text Overlay 4</Label>
+            <Textarea
+              id="textOverlay4"
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setTextOverlay4(e.target.value)
+              }
+              value={textOverlay4}
+              placeholder="Enter text for overlay 4"
+              className="border-pink-500/20 scrollbar-hide w-full resize-none rounded-md border  bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              rows={2}
+            />
+          </form>
+        </div>
+
+        <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8">
+          <div
+            ref={sharedContainerRef}
+            className="relative inline-block overflow-hidden"
+            style={{ width: 400, height: 400 }}
+          >
+            <IKImage
+              path={file.filePath}
+              urlEndpoint={urlEndpoint}
+              alt={file.name}
+              width={400}
+              height={400}
+              className="select-none"
+              transformation={
+                [
+                  blur ? { raw: "bl-3" } : undefined,
+                  sharpen ? { raw: "e-sharpen-10" } : undefined,
+                  grayscale ? { raw: "e-grayscale" } : undefined,
+                  border ? { raw: "b-80-000000" } : undefined,
+                  croprounded ? { raw: "r-max" } : undefined,
+                ].filter(Boolean) as any
+              }
+            />
+
+            {textOverlay1 && (
+              <div
+                ref={elementRef1}
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-bold text-black/80 active:cursor-grabbing"
+                style={{
+                  left: position1.x,
+                  top: position1.y,
+                  fontSize: `${fontSize}px`,
+                }}
+                onMouseDown={handleMouseDown1}
+                onTouchStart={handleTouchStart1}
+              >
+                {textOverlay1}
+              </div>
+            )}
+
+            {textOverlay2 && (
+              <div
+                ref={elementRef2}
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-bold text-black/80 active:cursor-grabbing"
+                style={{
+                  left: position2.x,
+                  top: position2.y,
+                  fontSize: `${fontSize}px`,
+                }}
+                onMouseDown={handleMouseDown2}
+                onTouchStart={handleTouchStart2}
+              >
+                {textOverlay2}
+              </div>
+            )}
+
+            {textOverlay3 && (
+              <div
+                ref={elementRef3}
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-bold text-black/80 active:cursor-grabbing"
+                style={{
+                  left: position3.x,
+                  top: position3.y,
+                  fontSize: `${fontSize}px`,
+                }}
+                onMouseDown={handleMouseDown3}
+                onTouchStart={handleTouchStart3}
+              >
+                {textOverlay3}
+              </div>
+            )}
+
+            {textOverlay4 && (
+              <div
+                ref={elementRef4}
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-bold text-black/80 active:cursor-grabbing"
+                style={{
+                  left: position4.x,
+                  top: position4.y,
+                  fontSize: `${fontSize}px`,
+                }}
+                onMouseDown={handleMouseDown4}
+                onTouchStart={handleTouchStart4}
+              >
+                {textOverlay4}
+              </div>
+            )}
+
+          </div>
+
+        </div>
+      </div>
+    </>
   );
 }
