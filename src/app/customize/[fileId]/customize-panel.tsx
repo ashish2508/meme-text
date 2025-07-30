@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useDownloadMeme } from "@/hooks/useDownloadMeme";
 import { useDraggable } from "@/hooks/useDraggable";
 import { useImageEffects } from "@/hooks/useImageEffects";
 import type { FileObject } from "imagekit/dist/libs/interfaces";
@@ -16,7 +17,7 @@ import { useRef, useState } from "react";
 export function CustomizePanel({
   file,
 }: {
-  file: Pick<FileObject, "filePath" | "name">;
+  file: Pick<FileObject, "filePath" | "name" | "customMetadata">;
 }) {
   const [textOverlay1, setTextOverlay1] = useState<string>("");
   const [textOverlay2, setTextOverlay2] = useState<string>("");
@@ -24,9 +25,11 @@ export function CustomizePanel({
   const [textOverlay4, setTextOverlay4] = useState<string>("");
 
   const sharedContainerRef = useRef<HTMLDivElement>(null);
+  const { download, isDownloading, error } = useDownloadMeme();
 
   const { blur, border, sharpen, grayscale, croprounded, setBlur, setBorder, setSharpen, setGrayscale, setCropRounded } = useImageEffects();
   const [fontSize, setFontSize] = useState<string>("20");
+
   const {
     position: position1,
     elementRef: elementRef1,
@@ -67,6 +70,22 @@ export function CustomizePanel({
     containerRef: sharedContainerRef,
   });
 
+  const handleDownload = async () => {
+    if (!sharedContainerRef.current) return;
+
+    const fileName = String(file.name || 'meme');
+    const cleanName = fileName.replace(/\.[^/.]+$/, "").replace(/[^a-zA-Z0-9-_]/g, '-');
+
+    await download({
+      containerRef: sharedContainerRef.current,
+      fileName: `meme-${cleanName}`,
+      width: 400,
+      height: 400,
+      scale: 6,
+    });
+  };
+
+
   return (
     <>
       <div className="flex items-center justify-between mb-4">
@@ -76,9 +95,17 @@ export function CustomizePanel({
           Customizing template:
         </h1>
         <div className="flex items-center">
-          <Button variant="ghost" className="hover:bg-transparent">
+          <Button
+            variant="ghost"
+            className="hover:bg-transparent"
+            onClick={handleDownload}
+            disabled={isDownloading}
+          >
             <DownloadButton />
           </Button>
+          {error && (
+            <p className="text-red-500 text-sm ml-2">{error}</p>
+          )}
         </div>
       </div>
       <div className="space-y-7">
@@ -197,16 +224,16 @@ export function CustomizePanel({
             style={{ width: 400, height: 400 }}
           >
             <div id="meme">
-
               <IKImage
                 path={file.filePath}
                 urlEndpoint={urlEndpoint}
                 alt={file.name}
-                width={400}
-                height={400}
+                width={800}
+                height={800}
                 className="select-none"
                 transformation={
                   [
+                    { quality: 100 },
                     blur ? { raw: "bl-3" } : undefined,
                     sharpen ? { raw: "e-sharpen-10" } : undefined,
                     grayscale ? { raw: "e-grayscale" } : undefined,
@@ -220,7 +247,8 @@ export function CustomizePanel({
             {textOverlay1 && (
               <div
                 ref={elementRef1}
-                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-black active:cursor-grabbing"
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-black active:cursor-grabbing text-rendering-optimized"
+
                 style={{
                   left: position1.x,
                   top: position1.y,
@@ -236,7 +264,7 @@ export function CustomizePanel({
             {textOverlay2 && (
               <div
                 ref={elementRef2}
-                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-black active:cursor-grabbing"
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-black active:cursor-grabbing text-rendering-optimized"
                 style={{
                   left: position2.x,
                   top: position2.y,
@@ -252,7 +280,7 @@ export function CustomizePanel({
             {textOverlay3 && (
               <div
                 ref={elementRef3}
-                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-black active:cursor-grabbing"
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-black active:cursor-grabbing text-rendering-optimized"
                 style={{
                   left: position3.x,
                   top: position3.y,
@@ -268,7 +296,7 @@ export function CustomizePanel({
             {textOverlay4 && (
               <div
                 ref={elementRef4}
-                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-black active:cursor-grabbing"
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-black active:cursor-grabbing text-rendering-optimized"
                 style={{
                   left: position4.x,
                   top: position4.y,
@@ -280,9 +308,7 @@ export function CustomizePanel({
                 {textOverlay4}
               </div>
             )}
-
           </div>
-
         </div>
       </div>
     </>
