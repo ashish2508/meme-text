@@ -21,13 +21,10 @@ export default async function CustomizePage({
       {file.customMetadata?.displayName || file.name}
     </a>
   </p>
-  
   <CustomizePanel file={{
     filePath: file.filePath, 
     name: file.name,
   }} />
 </div>
-
-
   );
 }
