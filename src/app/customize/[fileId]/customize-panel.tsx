@@ -176,7 +176,7 @@ export function CustomizePanel({
         </form>
       </div>
 
-      <div className="flex justify-center items-center gap-8">
+      <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8">
         <div
           ref={sharedContainerRef}
           className="relative inline-block overflow-hidden"
