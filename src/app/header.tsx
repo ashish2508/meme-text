@@ -7,12 +7,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { CircleUser, MenuIcon, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { SearchInput } from "./search-input";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 // import { auth, signIn, signOut } from "@/auth";
 
