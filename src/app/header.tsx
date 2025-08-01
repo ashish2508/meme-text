@@ -1,3 +1,4 @@
+import { auth, signIn, signOut } from "@/auth";
 import { ThemeToggle } from "@/components/themeToggle";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,11 +15,9 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { SearchInput } from "./search-input";
 
-// import { auth, signIn, signOut } from "@/auth";
 
 export async function Header() {
-  // const session = await auth();
-  const session = true || false
+  const session = await auth();
   return (
     <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
@@ -115,20 +114,20 @@ export async function Header() {
 }
 
 async function AccountMenu() {
-  // const session = await auth();
+  const session = await auth();
 
-  // if (!session) {
-  //   return (
-  //     <form
-  //       action={async () => {
-  //         "use server";
-  //         // await signIn();
-  //       }}
-  //     >
-  //       <Button type="submit">Sign in</Button>
-  //     </form>
-  //   );
-  // }
+  if (!session) {
+    return (
+      <form
+        action={async () => {
+          "use server";
+          await signIn();
+        }}
+      >
+        <Button type="submit" className="dark:bg-stone-900/80 border-2 border-rose-500/60 dark:border-pink-500/30 text-white dark:hover:text-white dark:hover:bg-slate-300/20 hover:bg-amber-200/40 hover:text-black scale-80 hover:scale-110 ">Sign in</Button>
+      </form>
+    );
+  }
 
   return (
     <DropdownMenu>
@@ -147,7 +146,7 @@ async function AccountMenu() {
           <form
             action={async () => {
               "use server";
-              // await signOut();
+               await signOut();
             }}
           >
             <button type="submit">Sign out</button>
