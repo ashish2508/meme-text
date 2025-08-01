@@ -8,7 +8,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { CircleUser, MenuIcon, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -106,7 +105,6 @@ export async function Header() {
           </div>
         </form>
         <ThemeToggle />
-
         <AccountMenu />
       </div>
     </header>
@@ -132,21 +130,17 @@ async function AccountMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <VisuallyHidden>
-
-          <Button variant="secondary" size="icon" className="rounded-full">
-            <CircleUser className="h-5 w-5" />
-            <span className="sr-only">Toggle user menu</span>
-          </Button>
-        </VisuallyHidden>
-
+        <Button variant="secondary" size="icon" className="rounded-full">
+          <CircleUser className="h-5 w-5" />
+          <span className="sr-only">Toggle user menu</span>
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem>
           <form
             action={async () => {
               "use server";
-               await signOut();
+              await signOut();
             }}
           >
             <button type="submit">Sign out</button>
