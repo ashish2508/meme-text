@@ -1,16 +1,13 @@
 import {
   boolean,
-  timestamp,
-  pgTable,
-  text,
-  primaryKey,
   integer,
+  pgTable,
+  primaryKey,
+  text,
+  timestamp,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
-import  postgres  from "postgres";
 import type { AdapterAccountType } from "next-auth/adapters";
-
-const pool= postgres(process.env.DRIZZLE_DATABASE_URL!);
 
 export const users = pgTable("user", {
   id: text("id")
