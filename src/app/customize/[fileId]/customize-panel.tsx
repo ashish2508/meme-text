@@ -17,7 +17,7 @@ import { useRef, useState } from "react";
 export function CustomizePanel({
   file,
 }: {
-  file: Pick<FileObject, "filePath" | "name" | "customMetadata">;
+  file: Pick<FileObject, "filePath" | "name" | "customMetadata" | "width" | "height">;
 }) {
   const [textOverlay1, setTextOverlay1] = useState<string>("");
   const [textOverlay2, setTextOverlay2] = useState<string>("");
@@ -79,8 +79,8 @@ export function CustomizePanel({
     await download({
       containerRef: sharedContainerRef.current,
       fileName: `meme-${cleanName}`,
-      width: 400,
-      height: 400,
+      width: file.width,
+      height: file.height,
       scale: 6,
     });
   };
@@ -94,6 +94,19 @@ export function CustomizePanel({
         >
           Customizing template:
         </h1>
+        <div className="flex items-center">
+          <Button
+            variant="ghost"
+            className="hover:bg-transparent"
+            onClick={handleDownload}
+            disabled={isDownloading}
+          >
+            <DownloadButton />
+          </Button>
+          {error && (
+            <p className="text-red-500 text-sm ml-2">{error}</p>
+          )}
+        </div>
         <div className="flex items-center">
           <Button
             variant="ghost"
@@ -130,12 +143,12 @@ export function CustomizePanel({
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="16">16px</SelectItem>
-                    <SelectItem value="20">20px</SelectItem>
-                    <SelectItem value="24">24px</SelectItem>
-                    <SelectItem value="28">28px</SelectItem>
-                    <SelectItem value="32">32px</SelectItem>
-                    <SelectItem value="36">36px</SelectItem>
-                    <SelectItem value="40">40px</SelectItem>
+                    <SelectItem value="30">30px</SelectItem>
+                    <SelectItem value="56">56px</SelectItem>
+                    <SelectItem value="78">78px</SelectItem>
+                    <SelectItem value="92">92px</SelectItem>
+                    <SelectItem value="116">116px</SelectItem>
+                    <SelectItem value="140">140px</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -217,19 +230,18 @@ export function CustomizePanel({
           </form>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-8 ">
           <div
             ref={sharedContainerRef}
-            className="relative inline-block overflow-hidden"
-            style={{ width: 400, height: 400 }}
+            className="relative inline-block overflow-hidden w-fit scale-52 h-fit"
           >
             <div id="meme">
               <IKImage
                 path={file.filePath}
                 urlEndpoint={urlEndpoint}
                 alt={file.name}
-                width={800}
-                height={800}
+                width={file.width}
+                height={file.height}
                 className="select-none"
                 transformation={
                   [
@@ -247,7 +259,7 @@ export function CustomizePanel({
             {textOverlay1 && (
               <div
                 ref={elementRef1}
-                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-black active:cursor-grabbing text-rendering-optimized"
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-white active:cursor-grabbing text-rendering-optimized"
 
                 style={{
                   left: position1.x,
@@ -264,7 +276,7 @@ export function CustomizePanel({
             {textOverlay2 && (
               <div
                 ref={elementRef2}
-                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-black active:cursor-grabbing text-rendering-optimized"
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-white active:cursor-grabbing text-rendering-optimized"
                 style={{
                   left: position2.x,
                   top: position2.y,
@@ -280,7 +292,7 @@ export function CustomizePanel({
             {textOverlay3 && (
               <div
                 ref={elementRef3}
-                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-black active:cursor-grabbing text-rendering-optimized"
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-white active:cursor-grabbing text-rendering-optimized"
                 style={{
                   left: position3.x,
                   top: position3.y,
@@ -296,7 +308,7 @@ export function CustomizePanel({
             {textOverlay4 && (
               <div
                 ref={elementRef4}
-                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-black active:cursor-grabbing text-rendering-optimized"
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-white active:cursor-grabbing text-rendering-optimized"
                 style={{
                   left: position4.x,
                   top: position4.y,
