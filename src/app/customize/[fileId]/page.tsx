@@ -24,6 +24,9 @@ export default async function CustomizePage({
   <CustomizePanel file={{
     filePath: file.filePath, 
     name: file.name,
+    width: file.width,
+    height: file.height,
+    customMetadata: file.customMetadata || {},
   }} />
 </div>
   );
