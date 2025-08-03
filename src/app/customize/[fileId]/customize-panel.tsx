@@ -95,17 +95,15 @@ export function CustomizePanel({
           Customizing template:
         </h1>
         <div className="flex items-center">
-          <Button
-            variant="ghost"
-            className="hover:bg-transparent"
-            onClick={handleDownload}
-            disabled={isDownloading}
-          >
-            <DownloadButton />
-          </Button>
-          {error && (
-            <p className="text-red-500 text-sm ml-2">{error}</p>
-          )}
+         <form
+         action= {async (formData) => {
+            "use server";
+            const favorite = formData.get("favorite");
+            if (favorite) {
+            }
+          }}>
+          <Button type="submit" variant="outline">Fav</Button>
+         </form>
         </div>
         <div className="flex items-center">
           <Button
