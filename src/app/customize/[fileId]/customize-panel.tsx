@@ -97,7 +97,6 @@ export function CustomizePanel({
         <div className="flex items-center">
          <form
          action= {async (formData) => {
-            "use server";
             const favorite = formData.get("favorite");
             if (favorite) {
             }
