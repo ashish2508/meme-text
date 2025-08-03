@@ -11,8 +11,8 @@ export interface DownloadMemeOptions {
 export const downloadMeme = async ({
   containerRef,
   fileName,
-  width = 400,
-  height = 400,
+  width = containerRef.offsetWidth,
+  height = containerRef.offsetHeight,
   scale = 6,
 }: DownloadMemeOptions): Promise<void> => {
   if (!containerRef) {
