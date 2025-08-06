@@ -1,9 +1,14 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import type { AuthResponse } from "@/types/types";
 import { IKImage, IKUpload, ImageKitProvider } from "imagekitio-next";
 import { useState } from "react";
 import { urlEndpoint } from "./providers";
+interface AuthResponse {
+  signature: string;
+  expire: number;
+  token: string;
+}
+
 export default function Home() {
   const [filePath,setFilePath]= useState("");
   const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
