@@ -42,4 +42,5 @@ export async function favMemeAction(
       });
     }
   }
+  revalidatePath(`/customize/${fileId}`);
 }

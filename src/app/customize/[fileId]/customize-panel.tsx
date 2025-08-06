@@ -106,7 +106,7 @@ export function CustomizePanel({
             variant="ghost"
             className="hover:bg-transparent"
             onClick={handleDownload}
-            disabled={isDownloading}
+            disabled={isDownloading} 
           >
             <DownloadButton />
           </Button>
