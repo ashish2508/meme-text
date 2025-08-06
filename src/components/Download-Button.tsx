@@ -25,7 +25,7 @@ export default function DownloadButton() {
         {/* Button content */}
         <div className="flex items-center gap-2">
           {isLoading ? (
-            <Loader2 size={48} className="animate-spin text-2xl" />
+            <Loader2 size={48} className="animate-spin" />
           ) : (
             <DownloadIcon size={24} />
           )}
