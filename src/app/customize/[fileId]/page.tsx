@@ -9,10 +9,7 @@ export default async function CustomizePage({
   params: { fileId: string };
 }) {
   unstable_noStore();
-
-
   const file = await imagekit.getFileDetails(params.fileId);
-
   return (
     <div className="container mx-auto space-y-8 py-8 px-4">
   <p className="text-xl sm:text-xl cursor-pointer font-semibold">
@@ -27,7 +24,9 @@ export default async function CustomizePage({
     width: file.width,
     height: file.height,
     customMetadata: file.customMetadata || {},
-  }} />
+    fileId: file.fileId
+  }} 
+  />
 </div>
   );
 }

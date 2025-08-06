@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useDownloadMeme } from "@/hooks/useDownloadMeme";
 import { useDraggable } from "@/hooks/useDraggable";
 import { useImageEffects } from "@/hooks/useImageEffects";
+import { favMemeAction } from "@/lib/actions";
 import type { FileObject } from "imagekit/dist/libs/interfaces";
 import { IKImage } from "imagekitio-next";
 import { useRef, useState } from "react";
@@ -17,7 +18,7 @@ import { useRef, useState } from "react";
 export function CustomizePanel({
   file,
 }: {
-  file: Pick<FileObject, "filePath" | "name" | "customMetadata" | "width" | "height">;
+  file: Pick<FileObject, "filePath" | "name" | "customMetadata" | "width" | "height" | "fileId">;
 }) {
   const [textOverlay1, setTextOverlay1] = useState<string>("");
   const [textOverlay2, setTextOverlay2] = useState<string>("");
@@ -96,11 +97,7 @@ export function CustomizePanel({
         </h1>
         <div className="flex items-center">
          <form
-         action= {async (formData) => {
-            const favorite = formData.get("favorite");
-            if (favorite) {
-            }
-          }}>
+            action={favMemeAction.bind(null, file.fileId)}>
           <Button type="submit" variant="outline">Fav</Button>
          </form>
         </div>
