@@ -2,6 +2,7 @@
 import { urlEndpoint } from "@/app/providers";
 import DownloadButton from "@/components/Download-Button";
 import Element from "@/components/element";
+import FavButton from "@/components/favButton";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -10,15 +11,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { useDownloadMeme } from "@/hooks/useDownloadMeme";
 import { useDraggable } from "@/hooks/useDraggable";
 import { useImageEffects } from "@/hooks/useImageEffects";
-import { favMemeAction } from "@/lib/actions";
+import { toggleFavMemeAction } from "@/lib/actions";
 import type { FileObject } from "imagekit/dist/libs/interfaces";
 import { IKImage } from "imagekitio-next";
 import { useRef, useState } from "react";
 
 export function CustomizePanel({
   file,
+  isFavorited,
 }: {
   file: Pick<FileObject, "filePath" | "name" | "customMetadata" | "width" | "height" | "fileId">;
+  isFavorited: boolean;
 }) {
   const [textOverlay1, setTextOverlay1] = useState<string>("");
   const [textOverlay2, setTextOverlay2] = useState<string>("");
@@ -95,24 +98,26 @@ export function CustomizePanel({
         >
           Customizing template:
         </h1>
+        <div className="flex gap-2 justify-end">
         <div className="flex items-center">
-         <form
-            action={favMemeAction.bind(null, file.fileId)}>
-          <Button type="submit" variant="outline">Fav</Button>
-         </form>
+          <form
+            action={toggleFavMemeAction.bind(null, file.fileId)}>
+            <FavButton isFavorited={isFavorited}  />
+          </form>
         </div>
         <div className="flex items-center">
           <Button
             variant="ghost"
             className="hover:bg-transparent"
             onClick={handleDownload}
-            disabled={isDownloading} 
+            disabled={isDownloading}
           >
             <DownloadButton />
           </Button>
           {error && (
             <p className="text-red-500 text-sm ml-2">{error}</p>
           )}
+        </div>
         </div>
       </div>
       <div className="space-y-7">
