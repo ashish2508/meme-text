@@ -5,16 +5,16 @@ import Element from "@/components/element";
 import FavButton from "@/components/favButton";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useDownloadMeme } from "@/hooks/useDownloadMeme";
 import { useDraggable } from "@/hooks/useDraggable";
 import { useImageEffects } from "@/hooks/useImageEffects";
-import { toggleFavoriteMemeAction } from "@/lib/actions";
-
 import type { FileObject } from "imagekit/dist/libs/interfaces";
 import { IKImage } from "imagekitio-next";
+import { Palette } from "lucide-react";
 import { useRef, useState } from "react";
 
 export function CustomizePanel({
@@ -28,12 +28,95 @@ export function CustomizePanel({
   const [textOverlay2, setTextOverlay2] = useState<string>("");
   const [textOverlay3, setTextOverlay3] = useState<string>("");
   const [textOverlay4, setTextOverlay4] = useState<string>("");
+  const [colorOverlay1, setColorOverlay1] = useState<string>("#ffffff");
+  const [colorOverlay2, setColorOverlay2] = useState<string>("#ffffff");
+  const [colorOverlay3, setColorOverlay3] = useState<string>("#ffffff");
+  const [colorOverlay4, setColorOverlay4] = useState<string>("#ffffff");
 
   const sharedContainerRef = useRef<HTMLDivElement>(null);
   const { download, isDownloading, error } = useDownloadMeme();
 
   const { blur, border, sharpen, grayscale, croprounded, setBlur, setBorder, setSharpen, setGrayscale, setCropRounded } = useImageEffects();
   const [fontSize, setFontSize] = useState<string>("20");
+
+  const handleColorChange = (overlayNumber: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    switch (overlayNumber) {
+      case 1:
+        setColorOverlay1(value);
+        break;
+      case 2:
+        setColorOverlay2(value);
+        break;
+      case 3:
+        setColorOverlay3(value);
+        break;
+      case 4:
+        setColorOverlay4(value);
+        break;
+    }
+  };
+
+  const handleColorPickerChange = (overlayNumber: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    switch (overlayNumber) {
+      case 1:
+        setColorOverlay1(value);
+        break;
+      case 2:
+        setColorOverlay2(value);
+        break;
+      case 3:
+        setColorOverlay3(value);
+        break;
+      case 4:
+        setColorOverlay4(value);
+        break;
+    }
+  };
+
+  const isValidHex = (hex: string): boolean => {
+    return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hex);
+  };
+
+  const ColorPickerSection = ({ overlayNumber, colorValue, label }: { overlayNumber: number, colorValue: string, label: string }) => (
+    <div className="flex flex-col gap-3">
+      <Label htmlFor={`colorOverlay${overlayNumber}`}>{label}</Label>
+      <div className="flex gap-2 items-center">
+        <Input
+          id={`colorOverlay${overlayNumber}`}
+          type="text"
+          value={colorValue}
+          onChange={handleColorChange(overlayNumber)}
+          placeholder="#ffffff"
+          className="flex-1 border-pink-500/20"
+          pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+        />
+
+        <div
+          className="w-8 h-8 rounded border border-gray-300"
+          style={{ backgroundColor: isValidHex(colorValue) ? colorValue : '#ffffff' }}
+        />
+
+        <div className="relative">
+          <input
+            type="color"
+            value={isValidHex(colorValue) ? colorValue : '#ffffff'}
+            onChange={handleColorPickerChange(overlayNumber)}
+            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          />
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="w-8 h-8 p-1 border-pink-500/20 hover:bg-pink-50 dark:hover:bg-pink-900/20"
+          >
+            <Palette size={16} className="text-pink-600 dark:text-pink-400" />
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
 
   const {
     position: position1,
@@ -90,7 +173,6 @@ export function CustomizePanel({
     });
   };
 
-
   return (
     <>
       <div className="flex items-center justify-between mb-4">
@@ -101,7 +183,7 @@ export function CustomizePanel({
         </h1>
         <div className="flex gap-2 justify-end items-center w-fit">
           <div className="flex items-center">
-              <FavButton isFavorited={isFavorited} fileId={file.fileId} filePath={file.filePath} pathToRevalidate={`/customize/${file.fileId}`} />
+            <FavButton isFavorited={isFavorited} fileId={file.fileId} filePath={file.filePath} pathToRevalidate={`/customize/${file.fileId}`} />
           </div>
           <div className="flex items-center">
             <Button
@@ -117,8 +199,8 @@ export function CustomizePanel({
             )}
           </div>
         </div>
-
       </div>
+
       <div className="space-y-7">
         <div className="flex flex-col gap-4 md:flex-row md:items-stretch ">
           <Card className="space-y-4 p-4 w-fit border-2 border-pink-500/20">
@@ -171,6 +253,7 @@ export function CustomizePanel({
               className="scrollbar-hide w-full resize-none rounded-md border border-pink-500/20 bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               rows={2}
             />
+            <ColorPickerSection overlayNumber={1} colorValue={colorOverlay1} label="Text Color (Hex)" />
           </form>
 
           <form
@@ -189,6 +272,7 @@ export function CustomizePanel({
               className="border-pink-500/20 scrollbar-hide w-full resize-none rounded-md border  bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               rows={2}
             />
+            <ColorPickerSection overlayNumber={2} colorValue={colorOverlay2} label="Text Color (Hex)" />
           </form>
 
           <form
@@ -207,6 +291,7 @@ export function CustomizePanel({
               className="border-pink-500/20 scrollbar-hide w-full resize-none rounded-md border  bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               rows={2}
             />
+            <ColorPickerSection overlayNumber={3} colorValue={colorOverlay3} label="Text Color (Hex)" />
           </form>
 
           <form
@@ -225,6 +310,7 @@ export function CustomizePanel({
               className="border-pink-500/20 scrollbar-hide w-full resize-none rounded-md border  bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               rows={2}
             />
+            <ColorPickerSection overlayNumber={4} colorValue={colorOverlay4} label="Text Color (Hex)" />
           </form>
         </div>
 
@@ -257,12 +343,12 @@ export function CustomizePanel({
             {textOverlay1 && (
               <div
                 ref={elementRef1}
-                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-white active:cursor-grabbing text-rendering-optimized"
-
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black active:cursor-grabbing text-rendering-optimized"
                 style={{
                   left: position1.x,
                   top: position1.y,
                   fontSize: `${fontSize}px`,
+                  color: isValidHex(colorOverlay1) ? colorOverlay1 : '#ffffff',
                 }}
                 onMouseDown={handleMouseDown1}
                 onTouchStart={handleTouchStart1}
@@ -274,11 +360,12 @@ export function CustomizePanel({
             {textOverlay2 && (
               <div
                 ref={elementRef2}
-                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-white active:cursor-grabbing text-rendering-optimized"
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black active:cursor-grabbing text-rendering-optimized"
                 style={{
                   left: position2.x,
                   top: position2.y,
                   fontSize: `${fontSize}px`,
+                  color: isValidHex(colorOverlay2) ? colorOverlay2 : '#ffffff',
                 }}
                 onMouseDown={handleMouseDown2}
                 onTouchStart={handleTouchStart2}
@@ -290,11 +377,12 @@ export function CustomizePanel({
             {textOverlay3 && (
               <div
                 ref={elementRef3}
-                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-white active:cursor-grabbing text-rendering-optimized"
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black active:cursor-grabbing text-rendering-optimized"
                 style={{
                   left: position3.x,
                   top: position3.y,
                   fontSize: `${fontSize}px`,
+                  color: isValidHex(colorOverlay3) ? colorOverlay3 : '#ffffff',
                 }}
                 onMouseDown={handleMouseDown3}
                 onTouchStart={handleTouchStart3}
@@ -306,11 +394,12 @@ export function CustomizePanel({
             {textOverlay4 && (
               <div
                 ref={elementRef4}
-                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black text-white active:cursor-grabbing text-rendering-optimized"
+                className="absolute cursor-grab touch-none select-none whitespace-pre-wrap rounded bg-transparent px-2 py-1 font-black active:cursor-grabbing text-rendering-optimized"
                 style={{
                   left: position4.x,
                   top: position4.y,
                   fontSize: `${fontSize}px`,
+                  color: isValidHex(colorOverlay4) ? colorOverlay4 : '#ffffff',
                 }}
                 onMouseDown={handleMouseDown4}
                 onTouchStart={handleTouchStart4}
