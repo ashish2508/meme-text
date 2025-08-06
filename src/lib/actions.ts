@@ -3,6 +3,7 @@
 
 import { db } from "@/app/db/db";
 import { favoriteCounts, favorites } from "@/app/db/schema";
+import { assertAuthenticated } from "@/app/lib/auth-utils";
 import { auth } from "@/auth";
 import { and, eq, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -11,14 +12,7 @@ export async function toggleFavMemeAction(
   fileId: string,
   filePath: string,
 ) {
-  const session = await auth();
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
-  const userId = session.user?.id;
-  if (!userId) {
-    throw new Error("User ID not found in session");
-  }
+  const userId = await assertAuthenticated();
   {
 
     const favorite = await db.query.favorites.findFirst({
