@@ -39,7 +39,6 @@ export function CustomizePanel({
   const { blur, border, sharpen, grayscale, croprounded, setBlur, setBorder, setSharpen, setGrayscale, setCropRounded } = useImageEffects();
   const [fontSize, setFontSize] = useState<string>("20");
 
-  // Function to handle color changes for each overlay
   const handleColorChange = (overlayNumber: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     switch (overlayNumber) {
@@ -58,7 +57,7 @@ export function CustomizePanel({
     }
   };
 
-  // Function to handle color picker changes
+
   const handleColorPickerChange = (overlayNumber: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     switch (overlayNumber) {
@@ -77,12 +76,11 @@ export function CustomizePanel({
     }
   };
 
-  // Validation function for hex colors
+
   const isValidHex = (hex: string): boolean => {
     return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hex);
   };
 
-  // Color picker component for reusability
   const ColorPickerSection = ({ overlayNumber, colorValue, label }: { overlayNumber: number, colorValue: string, label: string }) => (
     <>
       <Label htmlFor={`colorOverlay${overlayNumber}`}>{label}</Label>
