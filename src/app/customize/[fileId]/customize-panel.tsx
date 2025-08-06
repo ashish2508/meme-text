@@ -98,27 +98,27 @@ export function CustomizePanel({
         >
           Customizing template:
         </h1>
-        <div className="flex gap-2 justify-end">
-        <div className="flex items-center">
-          <form
-            action={toggleFavMemeAction.bind(null, file.fileId)}>
-            <FavButton isFavorited={isFavorited}  />
-          </form>
+        <div className="flex gap-2 justify-end items-center w-fit">
+          <div className="flex items-center">
+            <form action={toggleFavMemeAction.bind(null, file.fileId)}>
+              <FavButton isFavorited={isFavorited} />
+            </form>
+          </div>
+          <div className="flex items-center">
+            <Button
+              variant="ghost"
+              className="hover:bg-transparent"
+              onClick={handleDownload}
+              disabled={isDownloading}
+            >
+              <DownloadButton />
+            </Button>
+            {error && (
+              <p className="text-red-500 text-sm ml-2">{error}</p>
+            )}
+          </div>
         </div>
-        <div className="flex items-center">
-          <Button
-            variant="ghost"
-            className="hover:bg-transparent"
-            onClick={handleDownload}
-            disabled={isDownloading}
-          >
-            <DownloadButton />
-          </Button>
-          {error && (
-            <p className="text-red-500 text-sm ml-2">{error}</p>
-          )}
-        </div>
-        </div>
+
       </div>
       <div className="space-y-7">
         <div className="flex flex-col gap-4 md:flex-row md:items-stretch ">
