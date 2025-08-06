@@ -7,7 +7,7 @@ import { auth } from "@/auth";
 import { and, eq, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
-export async function favMemeAction(
+export async function toggleFavMemeAction(
   fileId: string,
   filePath: string,
 ) {
