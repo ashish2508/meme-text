@@ -11,7 +11,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useDownloadMeme } from "@/hooks/useDownloadMeme";
 import { useDraggable } from "@/hooks/useDraggable";
 import { useImageEffects } from "@/hooks/useImageEffects";
-import { toggleFavMemeAction } from "@/lib/actions";
+import { toggleFavoriteMemeAction } from "@/lib/actions";
+
 import type { FileObject } from "imagekit/dist/libs/interfaces";
 import { IKImage } from "imagekitio-next";
 import { useRef, useState } from "react";
@@ -100,9 +101,7 @@ export function CustomizePanel({
         </h1>
         <div className="flex gap-2 justify-end items-center w-fit">
           <div className="flex items-center">
-            <form action={toggleFavMemeAction.bind(null, file.fileId)}>
-              <FavButton isFavorited={isFavorited} />
-            </form>
+              <FavButton isFavorited={isFavorited} fileId={file.fileId} filePath={file.filePath} pathToRevalidate={`/customize/${file.fileId}`} />
           </div>
           <div className="flex items-center">
             <Button
