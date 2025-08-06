@@ -20,10 +20,10 @@ export default async function FavoritesPage() {
       {favorites.length === 0 && (
         <Card className="py-8 flex flex-col items-center justify-center gap-4">
           <Image
-            src="/empty.svg"
+            src="/assets/empty.png"
             width="200"
             height="200"
-            alt="an empty state image"
+            alt="a not found image"
           />
           <p>You have not favorited any memes!</p>
           <Button asChild>
