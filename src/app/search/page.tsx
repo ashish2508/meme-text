@@ -1,10 +1,10 @@
-import { unstable_noStore } from "next/cache";
-import { imagekit } from "../lib/image-kit";
 import { FileObject } from "imagekit/dist/libs/interfaces";
+import { unstable_noStore } from "next/cache";
+import { getFavorites } from "../favorites/loaders";
+import fuzzySearch from "../lib/fuzzy-search";
+import { imagekit } from "../lib/image-kit";
 import { ResultsList } from "./results-list";
 import { UploadMemeButton } from "./upload-meme-button";
-import fuzzySearch from "../lib/fuzzy-search";
-import { getFavorites } from "../favorites/loaders";
 
 
 export default async function SearchPage({
@@ -39,14 +39,14 @@ export default async function SearchPage({
       const file = item as FileObject;
       const displayName = file.customMetadata?.displayName || file.name;
 
-      const nameMatch = fuzzySearch(query, String(displayName)) ||
-        (file.name !== displayName && fuzzySearch(query, file.name));
+      const nameMatch = !!fuzzySearch(query, String(displayName)) ||
+        (file.name !== displayName && !!fuzzySearch(query, file.name));
 
       const tagMatch = file.tags && file.tags.some(tag =>
-        fuzzySearch(query, String(tag))
+        !!fuzzySearch(query, String(tag))
       );
 
-      return nameMatch || tagMatch;
+      return nameMatch! || tagMatch!;
     });
 
   const favorites = await getFavorites();
