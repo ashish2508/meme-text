@@ -4,6 +4,7 @@ import { FileObject } from "imagekit/dist/libs/interfaces";
 import { ResultsList } from "./results-list";
 import { UploadMemeButton } from "./upload-meme-button";
 import fuzzySearch from "../lib/fuzzy-search";
+import { getFavorites } from "../favorites/loaders";
 
 
 export default async function SearchPage({
@@ -28,24 +29,28 @@ export default async function SearchPage({
   }
 
   const allFiles = await imagekit.listFiles({
-    limit: 1000, 
+    limit: 1000,
   });
 
-  const filteredFiles = allFiles.filter((item) => {
-    if (item.type === 'folder') return false;
+  const filteredFiles: FileObject[] = allFiles
+    .filter((item): item is FileObject => {
+      if (item.type === 'folder' || !('fileId' in item)) return false;
 
-    const file = item as FileObject;
-    const displayName = file.customMetadata?.displayName || file.name;
+      const file = item as FileObject;
+      const displayName = file.customMetadata?.displayName || file.name;
 
-    const nameMatch = fuzzySearch(query, String(displayName)) ||
-      (file.name !== displayName && fuzzySearch(query, file.name));
+      const nameMatch = fuzzySearch(query, String(displayName)) ||
+        (file.name !== displayName && fuzzySearch(query, file.name));
 
-    const tagMatch = file.tags && file.tags.some(tag =>
-      fuzzySearch(query, String(tag))
-    );
+      const tagMatch = file.tags && file.tags.some(tag =>
+        fuzzySearch(query, String(tag))
+      );
 
-    return nameMatch || tagMatch;
-  });
+      return nameMatch || tagMatch;
+    });
+
+  const favorites = await getFavorites();
+  const favoritedFileIds = favorites.map(favorite => favorite.memeId);
 
   return (
     <div className="container mx-auto space-y-8 py-8 px-4">
@@ -62,7 +67,11 @@ export default async function SearchPage({
           Found {filteredFiles.length} result{filteredFiles.length !== 1 ? 's' : ''}
         </p>
       )}
-      <ResultsList files={filteredFiles} />
+      <ResultsList
+        files={filteredFiles}
+        favoritedFiles={favoritedFileIds}
+        searchQuery={query}
+      />
     </div>
   );
 }
