@@ -22,7 +22,7 @@ export default async function SearchPage({
           <h1 className="text-4xl font-bold">Search Results</h1>
           <UploadMemeButton />
         </div>
-        <p className="text-gray-500">Please enter a search term.</p>
+        <p className="text-gray-500 text-4xl font-black">{"Please enter a search term->"}</p>
       </div>
     );
   }
