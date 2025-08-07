@@ -20,9 +20,11 @@ import { useRef, useState } from "react";
 export function CustomizePanel({
   file,
   isFavorited,
+  isAuthenticated,
 }: {
   file: Pick<FileObject, "filePath" | "name" | "customMetadata" | "width" | "height" | "fileId">;
   isFavorited: boolean;
+  isAuthenticated: boolean;
 }) {
   const [textOverlay1, setTextOverlay1] = useState<string>("");
   const [textOverlay2, setTextOverlay2] = useState<string>("");
