@@ -22,7 +22,7 @@ export function FavoritesList({ favorites }: { favorites: Favorite[] }) {
               height={300}
             />
           </CardContent>
-          <CardFooter className="flex gap-2">
+          <CardFooter className="flex gap-3">
             <Button asChild>
               <Link href={`/customize/${favorite.memeId}`}>Customize</Link>
             </Button>
