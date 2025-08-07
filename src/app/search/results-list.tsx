@@ -1,7 +1,7 @@
 "use client";
 
-import { FileObject } from "imagekit/dist/libs/interfaces";
-import { IKImage } from "imagekitio-next";
+import FavButton from "@/components/favButton";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,20 +9,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { FileObject } from "imagekit/dist/libs/interfaces";
+import { IKImage } from "imagekitio-next";
 import Link from "next/link";
-import { HeartFilledIcon } from "@radix-ui/react-icons";
 import { urlEndpoint } from "../providers";
 
 export function ResultsList({
   files,
-  counts=[]
+  counts = [],
+  file,
+  isFavorited,
 }: {
   files: FileObject[];
-    counts?: { 
-      memeId: string;
-      count: number;
-    }[];
+  counts?: {
+    memeId: string;
+    count: number;
+  }[];
+  file: Pick<FileObject, "filePath" | "name" | "customMetadata" | "width" | "height" | "fileId">;
+  isFavorited: boolean;
 }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -32,7 +36,7 @@ export function ResultsList({
             <CardTitle className="flex justify-between">
               <div>{file.customMetadata?.displayName ?? file.name} </div>
               <div className="flex gap-1 items-center">
-                <HeartFilledIcon />
+                <FavButton isFavorited={isFavorited} fileId={file.fileId} filePath={file.filePath} pathToRevalidate={`/customize/${file.fileId}`} />
               </div>
             </CardTitle>
           </CardHeader>
