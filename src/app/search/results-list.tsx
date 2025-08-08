@@ -15,15 +15,15 @@ import { urlEndpoint } from "../providers";
 
 export function ResultsList({
   files,
-  // _counts = [],
+  counts = [],
   favoritedFiles = [],
   searchQuery = "",
 }: {
   files: FileObject[];
-  // _counts?: {
-  //   memeId: string;
-  //   count: number;
-  // }[];
+  counts?: {
+    memeId: string;
+    count: number;
+  }[];
   searchQuery?: string;
   favoritedFiles?: string[];
 }) {
