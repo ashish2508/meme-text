@@ -14,6 +14,10 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    esmExternals: true, 
+    serverSourceMaps: false,
+  },
 };
 
 export default withBundleAnalyzer(nextConfig);
