@@ -6,7 +6,7 @@ import { ThemeProvider } from "./theme-provider";
 const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
 const authenticator = async () => {
   try {
-    const response = await fetch("http://localhost:3000/api/auth");
+    const response = await fetch("http://memeify.ashishjha.tech/api/auth");
 
     if (!response.ok) {
       const errorText = await response.text();
