@@ -6,6 +6,7 @@ import "./globals.css";
 import { Header } from "./header";
 import { Providers } from "./providers";
 import { Analytics } from "@vercel/analytics/next"
+import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
   title: "Memeify",
@@ -80,6 +81,7 @@ export default function RootLayout({
           {children}
           <Analytics />
         </Providers>
+        <SiteFooter />
       </body>
     </html>
   );
