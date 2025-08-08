@@ -4,6 +4,7 @@ import fuzzySearch from "../lib/fuzzy-search";
 import { imagekit } from "../lib/image-kit";
 import { ResultsList } from "./results-list";
 import { UploadMemeButton } from "./upload-meme-button";
+import { getFavoriteCounts } from "./loader";
 
 export default async function SearchPage({
   searchParams,
@@ -46,7 +47,7 @@ export default async function SearchPage({
 
       return !!nameMatch || !!tagMatch;
     });
-
+  const favoriteCounts = await getFavoriteCounts(files.map(file)=>file.id)
   return (
     <div className="container mx-auto space-y-8 py-8 px-4">
       <div className="flex items-center justify-between">
