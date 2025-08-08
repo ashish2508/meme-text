@@ -21,11 +21,9 @@ type IKTransformation = Record<string, string | number | undefined>;
 export function CustomizePanel({
   file,
   isFavorited,
-  isAuthenticated,
 }: {
   file: Pick<FileObject, "filePath" | "name" | "customMetadata" | "width" | "height" | "fileId">;
   isFavorited: boolean;
-  isAuthenticated: boolean;
 }) {
 
   const [textOverlay1, setTextOverlay1] = useState<string>("");
@@ -190,11 +188,10 @@ export function CustomizePanel({
           Customizing template:
         </h1>
         <div className="flex gap-2 justify-end items-center w-fit">
-          {isAuthenticated && (
+          
             <div className="flex items-center">
               <FavButton isFavorited={isFavorited} fileId={file.fileId} filePath={file.filePath} pathToRevalidate={`/customize/${file.fileId}`} />
             </div>
-          )}
 
           <div className="flex items-center">
             <Button
