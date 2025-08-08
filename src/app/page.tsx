@@ -32,32 +32,7 @@ export default function Home() {
   };
   return (
     <div>
-      <Button>Click me</Button>
-      <ImageKitProvider publicKey={publicKey} authenticator={authenticator!} urlEndpoint={urlEndpoint}>
-        {filePath && (
-          <IKImage
-            path={filePath}
-            alt="text"
-            width={400}
-            height={400}
-          />
-        )}
-
-        <div>
-          <h2>File Upload</h2>
-          <IKUpload
-            fileName={"img_.jpeg"}
-            onError={(error) => {
-              console.error("Upload error:", error);
-            }}
-            onSuccess={(response) => {
-              console.log("Upload successful", response);
-              setFilePath(response.filePath);
-            }}
-          />
-        </div>
-
-      </ImageKitProvider>
+   hello
     </div>
   );
 }

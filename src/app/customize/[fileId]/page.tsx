@@ -13,6 +13,7 @@ export default async function CustomizePage({
   unstable_noStore();
   const session = await auth();
 
+
   const file = await imagekit.getFileDetails(params.fileId);
   const isFavorited = await getFavoriteMeme(params.fileId);
   return (
@@ -24,7 +25,7 @@ export default async function CustomizePage({
         </a>
       </p>
       <CustomizePanel 
-      isAuthenticated={!!session}
+        isAuthenticated={!!session}
       file={{
         filePath: file.filePath,
         name: file.name,
