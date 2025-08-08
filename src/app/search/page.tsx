@@ -5,6 +5,7 @@ import { imagekit } from "../lib/image-kit";
 import { ResultsList } from "./results-list";
 import { UploadMemeButton } from "./upload-meme-button";
 import { getFavoriteCounts } from "./loader";
+import { getFavorites } from "../favorites/loaders";
 
 export default async function SearchPage({
   searchParams,
@@ -26,7 +27,6 @@ export default async function SearchPage({
       </div>
     );
   }
-
   const allFiles = await imagekit.listFiles({
     limit: 1000,
   });
@@ -47,7 +47,14 @@ export default async function SearchPage({
 
       return !!nameMatch || !!tagMatch;
     });
-  const favoriteCounts = await getFavoriteCounts(files.map(file)=>file.id)
+
+
+  const favoriteCounts = await getFavoriteCounts(
+    filteredFiles.map((file) => file.fileId)
+  );
+  const favorites = await getFavorites();
+  const favoritedFileIds = favorites.map(favorite => favorite.memeId);
+
   return (
     <div className="container mx-auto space-y-8 py-8 px-4">
       <div className="flex items-center justify-between">
@@ -67,6 +74,8 @@ export default async function SearchPage({
 
       <ResultsList
         files={filteredFiles}
+        counts={favoriteCounts}
+        favoritedFiles={favoritedFileIds}
         searchQuery={query}
       />
     </div>
