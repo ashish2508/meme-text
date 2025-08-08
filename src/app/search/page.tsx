@@ -1,11 +1,9 @@
 import { FileObject } from "imagekit/dist/libs/interfaces";
 import { unstable_noStore } from "next/cache";
-import { getFavorites } from "../favorites/loaders";
 import fuzzySearch from "../lib/fuzzy-search";
 import { imagekit } from "../lib/image-kit";
 import { ResultsList } from "./results-list";
 import { UploadMemeButton } from "./upload-meme-button";
-
 
 export default async function SearchPage({
   searchParams,
@@ -39,18 +37,15 @@ export default async function SearchPage({
       const file = item as FileObject;
       const displayName = file.customMetadata?.displayName || file.name;
 
-      const nameMatch = !!fuzzySearch(query, String(displayName)) ||
-        (file.name !== displayName && !!fuzzySearch(query, file.name));
+      const nameMatch = fuzzySearch(query, String(displayName)) ||
+        (file.name !== displayName && fuzzySearch(query, file.name));
 
       const tagMatch = file.tags && file.tags.some(tag =>
-        !!fuzzySearch(query, String(tag))
+        fuzzySearch(query, String(tag))
       );
 
-      return nameMatch! || tagMatch!;
+      return nameMatch!! || tagMatch!!;
     });
-
-  const favorites = await getFavorites();
-  const favoritedFileIds = favorites.map(favorite => favorite.memeId);
 
   return (
     <div className="container mx-auto space-y-8 py-8 px-4">
@@ -60,6 +55,7 @@ export default async function SearchPage({
         </h1>
         <UploadMemeButton />
       </div>
+
       {filteredFiles.length === 0 ? (
         <p className="text-gray-500">No results found for "{query}"</p>
       ) : (
@@ -67,9 +63,9 @@ export default async function SearchPage({
           Found {filteredFiles.length} result{filteredFiles.length !== 1 ? 's' : ''}
         </p>
       )}
+
       <ResultsList
         files={filteredFiles}
-        favoritedFiles={favoritedFileIds}
         searchQuery={query}
       />
     </div>
