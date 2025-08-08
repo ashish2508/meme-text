@@ -188,9 +188,12 @@ export function CustomizePanel({
           Customizing template:
         </h1>
         <div className="flex gap-2 justify-end items-center w-fit">
-          <div className="flex items-center">
+          {isAuthenticated && (
+            <div className="flex items-center">
             <FavButton isFavorited={isFavorited} fileId={file.fileId} filePath={file.filePath} pathToRevalidate={`/customize/${file.fileId}`} />
           </div>
+          )}
+          
           <div className="flex items-center">
             <Button
               variant="ghost"
