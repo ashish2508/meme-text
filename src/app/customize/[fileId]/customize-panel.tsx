@@ -16,6 +16,7 @@ import type { FileObject } from "imagekit/dist/libs/interfaces";
 import { IKImage } from "imagekitio-next";
 import { Palette } from "lucide-react";
 import { useRef, useState } from "react";
+type IKTransformation = Record<string, string | number | undefined>;
 
 export function CustomizePanel({
   file,
@@ -26,6 +27,7 @@ export function CustomizePanel({
   isFavorited: boolean;
   isAuthenticated: boolean;
 }) {
+
   const [textOverlay1, setTextOverlay1] = useState<string>("");
   const [textOverlay2, setTextOverlay2] = useState<string>("");
   const [textOverlay3, setTextOverlay3] = useState<string>("");
@@ -344,7 +346,7 @@ export function CustomizePanel({
                     grayscale ? { raw: "e-grayscale" } : undefined,
                     border ? { raw: "b-80-000000" } : undefined,
                     croprounded ? { raw: "r-max" } : undefined,
-                  ].filter(Boolean) as any
+                  ].filter(Boolean) as IKTransformation[]
                 }
               />
             </div>
