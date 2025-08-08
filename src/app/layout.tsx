@@ -75,10 +75,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className="dark">
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased min-h-screen flex flex-col">
         <Providers>
           <Header />
-          {children}
+          <main className="flex-grow">
+            {children}
+          </main>
           <Analytics />
         </Providers>
         <SiteFooter />
