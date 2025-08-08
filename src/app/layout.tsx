@@ -14,7 +14,9 @@ export const metadata: Metadata = {
   keywords: ["memes", "meme generator", "viral content", "funny", "social media"],
   authors: [{ name: "Ashish Jha" }],
   creator: "ashish2508",
-
+  verification: {
+    google: "G5VMZqBY1HP3_SiNH9vBiF1IkHQBEHO5wTX96KFUZMo",
+  },
   openGraph: {
     title: "Memeify - Create Viral Memes",
     description: "Edit the meme template and make them go viral",
