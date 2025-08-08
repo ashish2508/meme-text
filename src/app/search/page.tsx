@@ -1,11 +1,13 @@
+import { auth } from "@/auth";
 import { FileObject } from "imagekit/dist/libs/interfaces";
 import { unstable_noStore } from "next/cache";
+import { redirect } from "next/navigation";
+import { getFavorites } from "../favorites/loaders";
 import fuzzySearch from "../lib/fuzzy-search";
 import { imagekit } from "../lib/image-kit";
+import { getFavoriteCounts } from "./loader";
 import { ResultsList } from "./results-list";
 import { UploadMemeButton } from "./upload-meme-button";
-import { getFavoriteCounts } from "./loader";
-import { getFavorites } from "../favorites/loaders";
 
 export default async function SearchPage({
   searchParams,
@@ -13,7 +15,14 @@ export default async function SearchPage({
   searchParams: { q: string };
 }) {
   unstable_noStore();
-
+  const session = await auth();
+  if (!session) {
+    redirect("/auth/signin");
+  }
+  const userId = await session.user?.id;
+  if (!userId) {
+    redirect("/auth/signin");
+  }
   const query = searchParams.q?.trim();
 
   if (!query) {
@@ -22,7 +31,7 @@ export default async function SearchPage({
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 justify-between">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Search Results</h1>
           <div className="self-start sm:self-auto">
-            <UploadMemeButton />
+            {session && <UploadMemeButton />}
           </div>
         </div>
         <p className="text-gray-500 text-xl sm:text-2xl lg:text-3xl font-black">
@@ -66,7 +75,7 @@ export default async function SearchPage({
           Search Results {query && `for "${query}"`}
         </h1>
         <div className="self-start sm:self-auto">
-          <UploadMemeButton />
+          {session && <UploadMemeButton />}
         </div>
       </div>
 

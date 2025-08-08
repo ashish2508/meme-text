@@ -1,8 +1,1 @@
- export { auth as middleware } from "@/auth";
-
-
-export const config = {
-  matcher: [
-    "/favorites", 
-  ],
-};
+export { auth as middleware } from "@/auth";
