@@ -28,6 +28,7 @@
     "@radix-ui/react-tooltip": "^1.2.7",
     "@types/imagekit": "^3.1.5",
     "@types/lodash": "^4.17.7",
+    "@vercel/analytics": "^1.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.44.4",
@@ -45,6 +46,7 @@
     "react-dom": "^18",
     "shadcn": "^2.9.3",
     "shadcn-remover": "^1.2.0",
+    "sharp": "^0.34.3",
     "styled-components": "^6.1.19",
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7"
