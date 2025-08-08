@@ -36,7 +36,7 @@ export function ResultsList({
           <Card key={file.fileId}>
             <CardHeader>
               <CardTitle className="flex justify-between">
-                <div>{file.customMetadata?.displayName ?? file.name}</div>
+                <div className="text-3xl font-black font-mono">{file.customMetadata?.displayName ?? file.name}</div>
                 <div className="flex gap-1 items-center">
                   <FavButton
                     isFavorited={isFavorited}
@@ -52,6 +52,8 @@ export function ResultsList({
                 key={file.fileId}
                 path={file.filePath}
                 urlEndpoint={urlEndpoint}
+                width={800}
+                height={800}
                 alt={file.name}
               />
             </CardContent>
