@@ -1,5 +1,5 @@
 "use client";
-
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import FavButton from "@/components/favButton";
 import { Button } from "@/components/ui/button";
 import {
