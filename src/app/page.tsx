@@ -10,7 +10,7 @@ interface AuthResponse {
 }
 
 export default function Home() {
-  const [filePath,setFilePath]= useState("");
+  const [filePath, setFilePath] = useState("");
   const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
   const authenticator: () => Promise<AuthResponse> = async () => {
     try {
@@ -25,8 +25,9 @@ export default function Home() {
       const token = String(data.token);
 
       return { signature, expire, token };
-    } catch (error: any) {
-      throw new Error(`Authentication request failed: ${error.message}`);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      throw new Error(`Authentication request failed: ${message}`);
     }
   };
   return (
@@ -34,12 +35,12 @@ export default function Home() {
       <Button>Click me</Button>
       <ImageKitProvider publicKey={publicKey} authenticator={authenticator!} urlEndpoint={urlEndpoint}>
         {filePath && (
-        <IKImage
-          path={filePath}
-          alt="text"
-          width={400}
-          height={400}
-        /> 
+          <IKImage
+            path={filePath}
+            alt="text"
+            width={400}
+            height={400}
+          />
         )}
 
         <div>
