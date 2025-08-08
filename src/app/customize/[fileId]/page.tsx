@@ -24,7 +24,6 @@ export default async function CustomizePage({
         </a>
       </p>
       <CustomizePanel 
-      isAuthenticated={!!session}
       file={{
         filePath: file.filePath,
         name: file.name,

@@ -143,7 +143,7 @@ async function AccountMenu() {
               await signOut();
             }}
           >
-            <button type="submit">Sign out</button>
+            <button type="submit" >Sign out</button>
           </form>
         </DropdownMenuItem>
       </DropdownMenuContent>
