@@ -17,11 +17,11 @@ export default async function SearchPage({
   unstable_noStore();
   const session = await auth();
   if (!session) {
-    redirect("/auth/signin");
+    redirect("http://localhost:3000/api/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fsignin");
   }
   const userId = await session.user?.id;
   if (!userId) {
-    redirect("/auth/signin");
+    redirect("http://localhost:3000/api/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fsignin");
   }
   const query = searchParams.q?.trim();
 

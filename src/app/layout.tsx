@@ -6,6 +6,7 @@ import "./globals.css";
 import { Header } from "./header";
 import { Providers } from "./providers";
 import { Analytics } from "@vercel/analytics/next"
+import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
   title: "Memeify",
@@ -74,12 +75,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className="dark">
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased min-h-screen flex flex-col">
         <Providers>
           <Header />
-          {children}
+          <main className="flex-grow">
+            {children}
+          </main>
           <Analytics />
         </Providers>
+        <SiteFooter />
       </body>
     </html>
   );
