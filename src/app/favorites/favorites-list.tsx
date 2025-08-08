@@ -1,41 +1,58 @@
 "use client";
 
 import { IKImage } from "imagekitio-next";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { type Favorite } from "../db/schema";
 import FavButton from "@/components/favButton";
+import { urlEndpoint } from "../providers";
+import type { FileObject } from "imagekit/dist/libs/interfaces";
 
+type FavoriteWithDetails = {
+  memeId: string;
+  filePath: string;
+  file: Pick<FileObject, "fileId" | "filePath" | "name" | "customMetadata" | "width" | "height">;
+};
 
-export function FavoritesList({ favorites }: { favorites: Favorite[] }) {
+export function FavoritesList({ favorites }: { favorites: FavoriteWithDetails[] }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-      {favorites.map((favorite) => (
-        <Card key={favorite.memeId}>
-          <CardContent>
-            <IKImage
-              key={favorite.memeId}
-              path={favorite.filePath}
-              alt={"a meme"}
-              width={300}
-              height={300}
-            />
-          </CardContent>
-          <CardFooter className="flex gap-3">
-            <Button asChild>
-              <Link href={`/customize/${favorite.memeId}`}>Customize</Link>
-            </Button>
+      {favorites.map(({ memeId, filePath, file }) => {
+        const displayName = file.customMetadata?.displayName ?? file.name;
+        return (
+          <Card key={memeId}>
+            <CardHeader>
+              <CardTitle className="flex justify-between">
+                <div>{displayName}</div>
+              </CardTitle>
+            </CardHeader>
 
-            <FavButton
-              pathToRevalidate={`/favorites`}
-              fileId={favorite.memeId}
-              filePath={favorite.filePath}
-              isFavorited={true}
-            />
-          </CardFooter>
-        </Card>
-      ))}
+            <CardContent>
+              <IKImage
+                key={memeId}
+                path={file.filePath}
+                urlEndpoint={urlEndpoint}
+                alt={file.name}
+               width={800} 
+               height={800}
+              />
+
+            </CardContent>
+
+            <CardFooter className="flex gap-3">
+              <Button asChild>
+                <Link href={`/customize/${memeId}`}>Customize</Link>
+              </Button>
+              <FavButton
+                pathToRevalidate="/favorites"
+                fileId={memeId}
+                filePath={filePath}
+                isFavorited={true}
+              />
+            </CardFooter>
+          </Card>
+        );
+      })}
     </div>
   );
 }
