@@ -1,13 +1,19 @@
+import bundleAnalyzer from '@next/bundle-analyzer';
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "ik.imagekit.io",
-        port: "",
+        protocol: 'https',
+        hostname: 'ik.imagekit.io',
+        port: '',
       },
     ],
   },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);
