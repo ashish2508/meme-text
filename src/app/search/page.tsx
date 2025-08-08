@@ -44,7 +44,7 @@ export default async function SearchPage({
         fuzzySearch(query, String(tag))
       );
 
-      return nameMatch!! || tagMatch!!;
+      return !!nameMatch || !!tagMatch;
     });
 
   return (
@@ -57,7 +57,7 @@ export default async function SearchPage({
       </div>
 
       {filteredFiles.length === 0 ? (
-        <p className="text-gray-500">No results found for "{query}"</p>
+        <p className="text-gray-500">{`No results found for "${query}"`}</p>
       ) : (
         <p className="text-sm text-gray-600">
           Found {filteredFiles.length} result{filteredFiles.length !== 1 ? 's' : ''}
