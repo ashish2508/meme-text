@@ -36,8 +36,16 @@ export function ResultsList({
           <Card key={file.fileId}>
             <CardHeader>
               <CardTitle className="flex justify-between">
-                <div className="text-3xl font-black font-mono">{file.customMetadata?.displayName ?? file.name}</div>
-                <div className="flex gap-1 items-center">
+                <div className="space-y-2">
+                  <div className="text-3xl font-black font-mono">
+                    {file.customMetadata?.displayName ?? file.name}
+                  </div>
+                  <p className="text-sm font-semibold text-gray-500">
+                    {`(favorite by ${counts.find((c) => c.memeId === file.fileId)?.count ?? 0})`}
+                  </p>
+                </div>
+
+                <div className="flex gap-2 items-center">
                   <FavButton
                     isFavorited={isFavorited}
                     fileId={file.fileId}
@@ -46,6 +54,7 @@ export function ResultsList({
                   />
                 </div>
               </CardTitle>
+
             </CardHeader>
             <CardContent>
               <IKImage
