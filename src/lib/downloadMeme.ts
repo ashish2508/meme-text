@@ -1,5 +1,3 @@
-import html2canvas from "html2canvas";
-
 export interface DownloadMemeOptions {
   containerRef: HTMLDivElement;
   fileName: string;
@@ -21,11 +19,13 @@ export const downloadMeme = async ({
 
   const elements = containerRef.querySelectorAll('[class*="cursor-grab"]');
   elements.forEach(el => {
-    el.classList.add('cursor-default');
-    el.classList.remove('cursor-grab');
+    el.classList.add("cursor-default");
+    el.classList.remove("cursor-grab");
   });
 
   try {
+    const html2canvas = (await import("html2canvas")).default;
+
     const canvas = await html2canvas(containerRef, {
       backgroundColor: null,
       scale,
@@ -38,14 +38,13 @@ export const downloadMeme = async ({
     });
 
     return new Promise((resolve, reject) => {
-      canvas.toBlob((blob) => {
+      canvas.toBlob(blob => {
         if (blob) {
           const url = URL.createObjectURL(blob);
-          const link = document.createElement('a');
+          const link = document.createElement("a");
           link.href = url;
           link.download = `${fileName}-${Date.now()}.png`;
-          link.style.display = 'none';
-
+          link.style.display = "none";
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
@@ -53,16 +52,16 @@ export const downloadMeme = async ({
 
           resolve();
         } else {
-          reject(new Error('Failed to create blob'));
+          reject(new Error("Failed to create blob"));
         }
-      }, 'image/png', 1.0);
+      }, "image/png", 1.0);
     });
   } catch (error) {
-    throw new Error(`Download failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    throw new Error(`Download failed: ${error instanceof Error ? error.message : "Unknown error"}`);
   } finally {
     elements.forEach(el => {
-      el.classList.remove('cursor-default');
-      el.classList.add('cursor-grab');
+      el.classList.remove("cursor-default");
+      el.classList.add("cursor-grab");
     });
   }
 };
