@@ -5,7 +5,7 @@ import "@fontsource/jetbrains-mono/400.css";
 import "./globals.css";
 import { Header } from "./header";
 import { Providers } from "./providers";
-
+import { Analytics } from "@vercel/analytics/next"
 
 export const metadata: Metadata = {
   title: "Memeify",
@@ -76,6 +76,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           {children}
+          <Analytics />
         </Providers>
       </body>
     </html>
