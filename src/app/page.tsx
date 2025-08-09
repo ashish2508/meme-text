@@ -1,25 +1,17 @@
-"use client";
-
+import { auth } from "@/auth";
+import { ImageGallery } from "@/components/image-gallery";
 import { SignInCard } from "@/components/sign-in-button";
 import { Button } from "@/components/ui/button";
+import { FileObject } from "imagekit/dist/libs/interfaces";
 import { Heart, Palette, Search } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { unstable_noStore } from "next/cache";
 import Link from "next/link";
+import { getFavorites } from "./favorites/loaders";
+import { imagekit } from "./lib/image-kit";
 
-export default function Home() {
-  const { data: session, status } = useSession();
-
-  if (status === "loading") {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-center">
-          <div className="text-2xl font-semibold bg-gradient-to-t from-[#ff9a9e] to-[#fecfef] bg-clip-text text-transparent">
-            Loading...
-          </div>
-        </div>
-      </div>
-    );
-  }
+export default async function Home() {
+  unstable_noStore();
+  const session = await auth();
 
   if (!session) {
     return (
@@ -69,7 +61,21 @@ export default function Home() {
     );
   }
 
-  // User is authenticated - show dashboard
+  // Fetch all uploaded images for authenticated users
+  const allFiles = await imagekit.listFiles({
+    limit: 1000,
+  });
+
+  const imageFiles: FileObject[] = allFiles
+    .filter((item): item is FileObject => {
+      return item.type === 'file' && 'fileId' in item;
+    });
+
+  // Get user's favorites
+  const favorites = await getFavorites();
+  const favoritedFileIds = favorites.map((favorite) => favorite.memeId);
+
+  // User is authenticated - show dashboard with images
   return (
     <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8">
@@ -87,7 +93,7 @@ export default function Home() {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
           <Button asChild size="lg" className="h-24 text-lg font-semibold bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white">
             <Link href="/search?q=">
               <Search className="w-6 h-6 mr-2" />
@@ -108,6 +114,29 @@ export default function Home() {
               Popular Memes
             </Link>
           </Button>
+        </div>
+
+        {/* All Templates Section */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold">
+              <span className="bg-gradient-to-t from-[#ff9a9e] to-[#fecfef] bg-clip-text text-transparent">
+                All Templates
+              </span>
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              {imageFiles.length} templates available
+            </p>
+          </div>
+
+          {imageFiles.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-lg text-muted-foreground mb-4">No templates found</p>
+              <p className="text-sm text-muted-foreground">Upload some images to get started!</p>
+            </div>
+          ) : (
+            <ImageGallery files={imageFiles} favoriteIds={favoritedFileIds} />
+          )}
         </div>
       </div>
     </div>
